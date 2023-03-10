@@ -1,5 +1,5 @@
 jQuery(document).ready($ => {
-    $('.acf-form').append('<iframe id="viewer" style="height:45vh; width: 100%"  src="https://ktwu.rpi-virtuell.de/wp-content/ktwu-iframe/viewer.php"> </iframe>')
+    $('.acf-form').prepend('<iframe id="viewer" style="height:45vh; width: 100%"  src="https://ktwu.rpi-virtuell.de/wp-content/ktwu-iframe/viewer.php"> </iframe>')
     $('.acf-radio-list input').on('change', function (e) {
         const iframe = document.getElementById('viewer');
         const innerDoc = iframe.contentDocument;
