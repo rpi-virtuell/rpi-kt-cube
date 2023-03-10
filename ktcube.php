@@ -38,6 +38,21 @@ class KtCube
             $font = get_post_meta(get_the_ID(), 'font', true);
             $text_color = urlencode(get_post_meta(get_the_ID(), 'text_color', true));
             $text = urlencode(get_post_meta(get_the_ID(), 'text', true));
+            $text_scale = get_post_meta(get_the_ID(), 'text_scale', true);
+
+
+            $arposts = get_posts(array('numberposts' => -1));
+            $arpostsarray = array();
+
+            foreach ($arposts as $arpost) {
+                $obj = new stdClass();
+                $obj->model = get_post_meta($arpost->ID, 'model', true);
+                $obj->font = get_post_meta($arpost->ID, 'font', true);
+                $obj->scale = get_post_meta($arpost->ID, 'text_scale', true);
+                $obj->color = get_post_meta($arpost->ID, 'text_color', true);
+                $obj->text = get_post_meta($arpost->ID, 'text', true);
+                $arpostsarray[] = $obj;
+            }
 
             ob_start();
             ?>
@@ -47,9 +62,13 @@ class KtCube
                 '?model=' . $model .
                 '&font=' . $font .
                 '&text_color=' . $text_color .
-                '&text=' . $text;
+                '&text=' . $text .
+                '&text_scale=' . $text_scale;
             ?>">
             </iframe>
+            <script>
+                const ARPosts =<?php echo json_encode($arpostsarray) ?>;
+            </script>
             <?php
             return ob_get_clean();
 
