@@ -54,10 +54,10 @@ class KtCube
                 $obj->text = get_post_meta($arpost->ID, 'text', true);
                 $arpostsarray[] = $obj;
             }
-
+            shuffle($arpostsarray);
             ob_start();
             ?>
-            <iframe style="height:90vh; width: 100%" src="<?php
+            <iframe id="cam" style="height:90vh; width: 100%" src="<?php
             echo
                 'https://ktwu.rpi-virtuell.de/wp-content/ktwu-iframe/cam.php' .
                 '?model=' . $model .
