@@ -26,6 +26,7 @@ class KtCube
     {
         add_filter('the_content', array($this, 'addiframetocontent'));
         wp_enqueue_script('rpi-kt-cube-script', plugin_dir_url(__FILE__) . 'js/viewer.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_script('rpi-kt-cube-posts-script', plugin_dir_url(__FILE__) . 'js/rndposts.js', array('jquery'), '1.0.0', true);
 
     }
 
