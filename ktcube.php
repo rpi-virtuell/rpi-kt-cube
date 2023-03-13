@@ -79,7 +79,7 @@ class KtCube
             ?>">
             </iframe>
             <script>
-                const ARPosts =<?php echo json_encode($arpostsarray) ?>;
+                // const ARPosts =<?php echo json_encode($arpostsarray) ?>;
             </script>
             <?php
             return ob_get_clean();

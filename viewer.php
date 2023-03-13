@@ -1,5 +1,5 @@
 <?php
-$base_url = str_replace('/cam.php', '', 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
+$base_url = str_replace('/viewer.php', '', 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
 ?>
 <html>
 <head>
