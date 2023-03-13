@@ -13,17 +13,19 @@ $base_url = str_replace('/viewer.php', '', 'https://'.$_SERVER['SERVER_NAME'].$_
 
     <a-entity
             fronttext
-            text="font:<?php echo $base_url;?>/assets/PermanentMarker-Regular-msdf.json; value: Klappentext;negate:false; align:center; shader:msdf; color:#fff; width:1.5;opacity:0.8 ; side:double"
+            text="font:<?php echo $base_url;?>/assets/PermanentMarker-Regular-msdf.json; value: Klappentext;negate:false; align:center; shader:msdf; color:#fff; width:0.3;opacity:0.5 ; side:double; wrapPixels:400"
             position="0 1.6 -0.245" scale="1 1 1" rotation="0 0 0"
             animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
             material="side:double"
+
     ></a-entity>
 
     <a-entity
-            text="font:<?php echo $base_url;?>/assets/PermanentMarker-Regular-msdf.json; value: Klappentext;negate:false; align:center; shader:msdf; color:#000; width:1.5;opacity:0.15 ; side:double"
+            text="font:<?php echo $base_url;?>/assets/PermanentMarker-Regular-msdf.json; value: Klappentext;negate:false; align:center; shader:msdf; color:#000; width:0.3;opacity:0.15 ; side:double; wrapPixels:400"
             position="0.01 1.6 -0.25" scale="1 1 1" rotation="0 0 0"
             animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
             material="side:double"
+
     ></a-entity>
 </a-scene>
 
