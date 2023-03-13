@@ -24,23 +24,25 @@ class KtCube
 
     public function __construct()
     {
-        define('KTCUBE_ASSETS_URL', plugin_dir_url(__FILE__).'/assets/');
+        define('KTCUBE_ASSETS_URL', plugin_dir_url(__FILE__) . '/assets/');
         add_filter('the_content', array($this, 'addiframetocontent'));
         wp_enqueue_script('rpi-kt-cube-script', plugin_dir_url(__FILE__) . 'js/viewer.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('rpi-kt-cube-posts-script', plugin_dir_url(__FILE__) . 'js/rndposts.js', array('jquery'), '1.0.0', true);
-        add_action('wp_head',array($this,'head_scripts'));
+        add_action('wp_head', array($this, 'head_scripts'));
 
     }
 
-    public function head_scripts(){
+    public function head_scripts()
+    {
         ?>
         <script>
-            KtCube={};
+            KtCube = {};
             KtCube.pluginUrl = '<?php echo plugin_dir_url(__FILE__) ?>';
             KtCube.assetsUrl = '<?php echo KTCUBE_ASSETS_URL ?>';
         </script>
         <?php
     }
+
     public function addiframetocontent($content)
     {
         if (get_post_type() == "post") {
@@ -51,6 +53,7 @@ class KtCube
             $text_color = urlencode(get_post_meta(get_the_ID(), 'text_color', true));
             $text = urlencode(get_post_meta(get_the_ID(), 'text', true));
             $text_scale = get_post_meta(get_the_ID(), 'text_scale', true);
+            $author = get_post_meta(get_the_ID(), 'author', true);
 
 
             $arposts = get_posts(array('numberposts' => -1));
@@ -63,6 +66,7 @@ class KtCube
                 $obj->scale = get_post_meta($arpost->ID, 'text_scale', true);
                 $obj->color = get_post_meta($arpost->ID, 'text_color', true);
                 $obj->text = get_post_meta($arpost->ID, 'text', true);
+                $obj->author = get_post_meta($arpost->ID, 'author', true);
                 $arpostsarray[] = $obj;
             }
             shuffle($arpostsarray);
@@ -70,12 +74,13 @@ class KtCube
             ?>
             <iframe id="cam" style="height:90vh; width: 100%" src="<?php
             echo
-                plugin_dir_url(__FILE__).'/cam.php' .
+                plugin_dir_url(__FILE__) . '/cam.php' .
                 '?model=' . $model .
                 '&font=' . $font .
                 '&text_color=' . $text_color .
                 '&text=' . $text .
-                '&text_scale=' . $text_scale;
+                '&text_scale=' . $text_scale .
+                '&author=' . $author;
             ?>">
             </iframe>
             <script>
