@@ -12,7 +12,7 @@
 <body>
 
 <?php
-render_cam_scene('multi-targets', 2);
+render_cam_scene('multi-targets', 3);
 ?>
 </body>
 </html>
