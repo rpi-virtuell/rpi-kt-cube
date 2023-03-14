@@ -28,7 +28,6 @@ $base_url = str_replace('/viewer.php', '', 'https://' . $_SERVER['SERVER_NAME'] 
             material="side:double"
 
     >
-
         <a-entity
                 authortext front
                 text="font:<?php echo $base_url; ?>/assets/PermanentMarker-Regular-msdf.json; value: author;negate:false; align:right; shader:msdf; color:#fff; opacity:0.9 ; side:double; wrapPixels:400"
