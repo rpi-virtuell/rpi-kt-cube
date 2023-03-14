@@ -44,9 +44,7 @@ $base_url = str_replace('/viewer.php', '', 'https://' . $_SERVER['SERVER_NAME'] 
 
         ></a-entity>
     </a-entity>
-    <a-image
-            src="<?php echo $base_url; ?>/assets/background.jpg" position="0.01 1.45 -0.25" scale="1 1 1" rotation="90 0 0"
-    >
+        <a-image src="<?php echo $base_url; ?>/assets/background.jpg" position="0.01 0.8 -1.25" scale="5 3 0" rotation="-20 0 0">
     </a-image>
 
 </a-scene>
