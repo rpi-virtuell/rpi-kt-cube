@@ -27,7 +27,7 @@ function render_cam_scene($mindfilename, $targetindexes)
     if (isset($_GET['model']) || isset($_GET['text'])) {
 
         if (isset($_GET['text_scale'])) {
-            $scale = intval($_GET['text_scale']) * 5;
+            $scale = intval($_GET['text_scale']) * 2;
         } else {
             $scale = 5;
         }
@@ -68,8 +68,8 @@ function render_cam_scene($mindfilename, $targetindexes)
 
                     <a-entity
                             messagetext front
-                            text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $_GET['text'] ?>;negate:false; align:center; shader:msdf; color:<?php echo $_GET['text_color'] ?>; width:1.5;opacity:0.8 ; side:double wrapPixels:450 ; baseline:bottom"
-                            position="0 0 -0.245"
+                            text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $_GET['text'] ?>;negate:false; align:center; shader:msdf; color:<?php echo $_GET['text_color'] ?> ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
+                            position="0 -1 0"
                             scale="<?php echo $scale . ' ' . $scale . ' ' . $scale ?>" rotation="0 0 0"
                             animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                             material="side:double"
@@ -78,8 +78,8 @@ function render_cam_scene($mindfilename, $targetindexes)
 
                     <a-entity
                             messagetext back
-                            text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $_GET['text'] ?>;negate:false; align:center; shader:msdf; color:#000; width:1.5;opacity:0.15 ; side:double wrapPixels:450 ; baseline:bottom"
-                            position="0 0 -0.4"
+                            text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $_GET['text'] ?>;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:bottom"
+                            position="0.01 -1 0"
                             scale="<?php echo $scale . ' ' . $scale . ' ' . $scale ?>" rotation="0 0 0"
                             animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                             material="side:double"
@@ -87,22 +87,21 @@ function render_cam_scene($mindfilename, $targetindexes)
 
                         <?php
                         if (isset($_GET['author'])) {
-                            $author_scale = $scale * 0.2;
                             ?>
                             <a-entity
                                     authortext front
-                                    text="font:<?php echo $base_url; ?>/assets/PermanentMarker-Regular-msdf.json; value: <?php echo $_GET['author'] ?>;negate:false; align:right; shader:msdf; color:<?php echo $_GET['text_color'] ?>; opacity:0.9 ; side:double; wrapPixels:400"
-                                    position="0 -0.1 0"
-                                    scale="<?php echo $author_scale . ' ' . $author_scale . ' ' . $author_scale ?>"
+                                    text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $_GET['author'] ?>;negate:false; align:right; shader:msdf; color:<?php echo $_GET['text_color'] ?>; opacity:0.9 ; side:double; wrapPixels:400"
+                                    position="0 -0.05 0"
+                                    scale="0.5 0.5 0.5"
                                     rotation="0 0 0"
                                     material="side:double"
 
                             ></a-entity>
                             <a-entity
                                     authortext back
-                                    text="font:<?php echo $base_url; ?>/assets/PermanentMarker-Regular-msdf.json; value: <?php echo $_GET['author'] ?>;negate:false; align:right; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:400"
-                                    position="0.01 -0.1 -0.005"
-                                    scale="<?php echo $author_scale . ' ' . $author_scale . ' ' . $author_scale ?>"
+                                    text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $_GET['author'] ?>;negate:false; align:right; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:400"
+                                    position="0.01 -0.05 -0.005"
+                                    scale="0.5 0.5 0.5"
                                     rotation="0 0 0"
                                     material="side:double"
 
@@ -112,6 +111,9 @@ function render_cam_scene($mindfilename, $targetindexes)
                         }
                         ?>
                     </a-entity>
+                    <a-entity geometry="primitive: plane" material="color:white; opacity:0.3" position="0 0 0" width="2" heigth="2">
+
+                    </a-entityplane>
                 </a-entity>
                 <?php
             }
