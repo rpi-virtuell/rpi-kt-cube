@@ -2,14 +2,14 @@
 
 AFRAME.registerComponent('fronttext', {
     init: function () {
-		setTimeout(()=>{
+        setTimeout(() => {
 
-			if(typeof ARPosts != "undefined" && ARPosts.length>0){
-				this.display_next(0);
-			}
+            if (typeof ARPosts != "undefined" && ARPosts.length > 0) {
+                this.display_next(0);
+            }
 
 
-		},8000)
+        }, 8000)
     },
     display_next: function (i) {
 
@@ -57,7 +57,7 @@ AFRAME.registerComponent('fronttext', {
         i++;
         if (i < ARPosts.length) {
             setTimeout(() => {
-				this.display_next(i);
+                this.display_next(i);
             }, 8000);
 
         } else {

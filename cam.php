@@ -54,7 +54,10 @@ function render_cam_scene($mindfilename, $targetindexes)
 
             <?php
 
-            for ($i = 0; $i <= $targetindexes; $i++) {
+
+            for ($i = 0;
+                 $i <= $targetindexes;
+                 $i++) {
                 ?>
                 <a-entity mindar-image-target="targetIndex: <?php echo $i ?>">
                     <a-entity light="type:directional; castShadow:true;" position="1 1 8"></a-entity>
@@ -111,9 +114,10 @@ function render_cam_scene($mindfilename, $targetindexes)
                         }
                         ?>
                     </a-entity>
-                    <a-entity geometry="primitive: plane" material="color:white; opacity:0.3" position="0 0 0" width="2" heigth="2">
+                    <a-entity geometry="primitive: plane" material="color:white; opacity:0.3" position="0 0 0" width="2"
+                              heigth="2">
 
-                    </a-entityplane>
+                    </a-entity>
                 </a-entity>
                 <?php
             }

@@ -62,4 +62,15 @@ jQuery(document).ready($ => {
     })
 
 
+
+    jQuery('#cam').ready($ => {
+        let window_size = $(window).height();
+        let header_size = $('#header').height();
+        console.log(header_size);
+        console.log(window_size);
+        $('#cam').height(window_size - header_size);
+
+    });
+
+
 });

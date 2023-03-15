@@ -9,6 +9,7 @@ $base_url = str_replace('/viewer.php', '', 'https://' . $_SERVER['SERVER_NAME'] 
 </head>
 <body>
 <a-scene debug="true" background="color:gray;">
+    <a-camera wasd-controls-enabled="false"  look-controls="magicWindowTrackingEnabled: false"></a-camera>
     <a-entity light="type:directional; castShadow:true;" position="1 1 5"></a-entity>
 
     <a-entity
