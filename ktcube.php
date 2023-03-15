@@ -29,6 +29,7 @@ class KtCube
         wp_enqueue_script('rpi-kt-cube-script', plugin_dir_url(__FILE__) . 'js/viewer.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('rpi-kt-cube-posts-script', plugin_dir_url(__FILE__) . 'js/rndposts.js', array('jquery'), '1.0.0', true);
         add_action('wp_head', array($this, 'head_scripts'));
+        add_shortcode('ar_posts_shuffle', array($this, 'shuffle_ar_posts'));
 
     }
 
@@ -55,24 +56,9 @@ class KtCube
             $text_scale = get_post_meta(get_the_ID(), 'text_scale', true);
             $author = get_post_meta(get_the_ID(), 'author', true);
 
-
-            $arposts = get_posts(array('numberposts' => -1));
-            $arpostsarray = array();
-
-            foreach ($arposts as $arpost) {
-                $obj = new stdClass();
-                $obj->model = get_post_meta($arpost->ID, 'model', true);
-                $obj->font = get_post_meta($arpost->ID, 'font', true);
-                $obj->scale = get_post_meta($arpost->ID, 'text_scale', true);
-                $obj->color = get_post_meta($arpost->ID, 'text_color', true);
-                $obj->text = get_post_meta($arpost->ID, 'text', true);
-                $obj->author = get_post_meta($arpost->ID, 'author', true);
-                $arpostsarray[] = $obj;
-            }
-            shuffle($arpostsarray);
             ob_start();
             ?>
-            <iframe id="cam" style="height:90vh; width: 100%" src="<?php
+            <iframe id="cam" frameBorder="0" style="height:90vh; width: 100%" src="<?php
             echo
                 plugin_dir_url(__FILE__) . '/cam.php' .
                 '?model=' . $model .
@@ -83,15 +69,43 @@ class KtCube
                 '&author=' . $author;
             ?>">
             </iframe>
-            <script>
-                const ARPosts =<?php echo json_encode($arpostsarray) ?>;
-            </script>
             <?php
             return ob_get_clean();
 
         } else {
             return $content;
         }
+    }
+
+    public function shuffle_ar_posts()
+    {
+        $arposts = get_posts(array('numberposts' => -1));
+        $arpostsarray = array();
+
+        foreach ($arposts as $arpost) {
+            $obj = new stdClass();
+            $obj->model = get_post_meta($arpost->ID, 'model', true);
+            $obj->font = get_post_meta($arpost->ID, 'font', true);
+            $obj->scale = get_post_meta($arpost->ID, 'text_scale', true);
+            $obj->color = get_post_meta($arpost->ID, 'text_color', true);
+            $obj->text = get_post_meta($arpost->ID, 'text', true);
+            $obj->author = get_post_meta($arpost->ID, 'author', true);
+            $arpostsarray[] = $obj;
+        }
+        shuffle($arpostsarray);
+        ob_start();
+        ?>
+        <iframe id="cam" frameBorder="0" style="height:90vh; width: 100%" src="<?php
+        echo
+            plugin_dir_url(__FILE__) . '/cam.php' .
+            '?shuffle=on'
+        ?>">
+        </iframe>
+        <script>
+             const ARPosts =<?php echo json_encode($arpostsarray) ?>;
+        </script>
+        <?php
+        return ob_get_clean();
     }
 }
 
