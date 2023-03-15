@@ -9,7 +9,7 @@ AFRAME.registerComponent('fronttext', {
             }
 
 
-        }, 8000)
+        }, 3000)
     },
     display_next: function (i) {
 
@@ -21,7 +21,8 @@ AFRAME.registerComponent('fronttext', {
         const nodes = innerDoc.querySelectorAll('a-entity[text]');
         const fronttext = nodes[0];
         const shadowtext = nodes[1];
-
+        const authortext = nodes[2];
+        const authorback = nodes[3];
 
         const base_url = KtCube.assetsUrl;
 
@@ -35,6 +36,8 @@ AFRAME.registerComponent('fronttext', {
 
         fronttext.components.text.data.value = post.text;
         shadowtext.components.text.data.value = post.text;
+        authortext.components.text.data.value = post.author;
+        authorback.components.text.data.value = post.author;
 
         if (post.font) {
             fronttext.components.text.data.font = base_url + post.font + '.json';
@@ -63,7 +66,7 @@ AFRAME.registerComponent('fronttext', {
         } else {
             setTimeout(() => {
                 location.reload();
-            }, 8000);
+            }, 2000);
 
         }
 
