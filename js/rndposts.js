@@ -1,17 +1,56 @@
 jQuery(document).ready(() => {
 
 
+
+
+
+
+
+
     setTimeout(() => {
 
         if (typeof ARPosts != "undefined" && ARPosts.length > 0) {
-            display_next(0);
+            KtCube.postnuber = -1;
+            display_next('right');
+
+
+            $iframe = jQuery('iframe');
+            $right = $iframe.contents().find('.cam-right-arrow');
+            $left = $iframe.contents().find('.cam-left-arrow');
+
+
+            $right.on("click", (event) => {
+                display_next('right');
+
+            });
+            $left.on("click", (event) => {
+                display_next('left');
+            });
         }
 
 
     }, 2000)
 
 
-    function display_next(i) {
+    function display_next(dir) {
+
+        if(dir === 'left'){
+            KtCube.postnuber --;
+        }else{
+            KtCube.postnuber ++;
+        }
+
+        var i = KtCube.postnuber;
+
+        if (i < 0) {
+            i =  ARPosts.length-1;
+            KtCube.postnuber = i ;
+        }else if(i > ARPosts.length-1) {
+            i = 0;
+            KtCube.postnuber = i;
+        }
+
+
 
 
 
@@ -30,14 +69,7 @@ jQuery(document).ready(() => {
 
         let post = ARPosts[i];
 
-        //console.log(post);
-        /*
-        console.log(post.author);
-
-        console.log(authortext.components);
-
-        console.log(post.text)
-*/
+        console.log(KtCube.postnuber, i,ARPosts.length, post);
 
         for(const item of front){
             item.components.text.data.color = post.color;
@@ -59,10 +91,8 @@ jQuery(document).ready(() => {
         }
 
         for(const fronttext of innerDoc.querySelectorAll('a-entity[messagecontainer]')){
-            console.log('post.scale',post.scale);
             if (post.scale>0) {
-                let s = post.scale * 2;
-                console.log('post.scale calc',s);
+                let s = post.scale * 1.5;
                 if (s > 2.5) s = 2.5;
                 fronttext.setAttribute('scale', s + ' ' + s + ' ' + s);
 
@@ -71,36 +101,6 @@ jQuery(document).ready(() => {
         }
 
 
-        i++;
-
-        $iframe = jQuery('iframe');
-        $right = $iframe.contents().find('.cam-right-arrow');
-        $left = $iframe.contents().find('.cam-left-arrow');
-
-
-        if (i < ARPosts.length) {
-            $left.on("click", (event) => {
-                if(i-2<0){
-                    i = ARPosts.length;
-                    $left.unbind();
-                }else{
-                    i=i-2;
-                }
-
-                display_next(i);
-
-            });
-
-            $right.on("click", (event) => {
-                display_next(i);
-
-            });
-        }else if(i >= ARPosts.length) {
-            i = 0;
-            $right.unbind();$left.unbind();
-            display_next(i);
-
-        }
 
 
     }
