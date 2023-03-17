@@ -72,15 +72,34 @@ jQuery(document).ready(() => {
 
 
         i++;
-        if (i < ARPosts.length) {
 
-            innerDoc.querySelector(".cam-right-arrow").addEventListener("click", (event) => {
+        $iframe = jQuery('iframe');
+        $right = $iframe.contents().find('.cam-right-arrow');
+        $left = $iframe.contents().find('.cam-left-arrow');
+
+
+        if (i < ARPosts.length) {
+            $left.on("click", (event) => {
+                if(i-2<0){
+                    i = ARPosts.length;
+                    $left.unbind();
+                }else{
+                    i=i-2;
+                }
+
                 display_next(i);
+
             });
-        } else {
-            innerDoc.querySelector(".cam-right-arrow").addEventListener("click", (event) => {
-                location.reload();
+
+            $right.on("click", (event) => {
+                display_next(i);
+
             });
+        }else if(i >= ARPosts.length) {
+            i = 0;
+            $right.unbind();$left.unbind();
+            display_next(i);
+
         }
 
 
