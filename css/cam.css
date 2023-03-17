@@ -1,0 +1,25 @@
+.cam-container {
+    position: relative
+}
+
+.cam-left-arrow {
+    position: absolute;
+    z-index: 3;
+    left: 10px;
+    bottom: 30px;
+    opacity: 0.5;
+    border: 2px black solid;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.cam-right-arrow {
+    position: absolute;
+    z-index: 3;
+    right: 10px;
+    bottom: 30px;
+    opacity: 0.5;
+    border: 2px black solid;
+    border-radius: 15px;
+    background-color: white;
+}
