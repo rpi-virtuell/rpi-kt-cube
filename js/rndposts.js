@@ -14,15 +14,15 @@ jQuery(document).ready(() => {
     function display_next(i) {
 
 
-        console.log(i);
 
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
-        const nodes = innerDoc.querySelectorAll('a-entity[text]');
-        const fronttext = nodes[0];
-        const shadowtext = nodes[1];
-        const authortext = nodes[2];
-        const authorback = nodes[3];
+        const textnodes = innerDoc.querySelectorAll('a-entity[text]');
+
+        const messages = innerDoc.querySelectorAll('a-entity[messagetext]');
+        const front = innerDoc.querySelectorAll('a-entity[front]');
+        const authors = innerDoc.querySelectorAll('a-entity[authortext]');
+
 
 
         const base_url = KtCube.assetsUrl;
@@ -31,41 +31,45 @@ jQuery(document).ready(() => {
         let post = ARPosts[i];
 
         //console.log(post);
+        /*
         console.log(post.author);
 
         console.log(authortext.components);
 
         console.log(post.text)
+*/
 
-
-        fronttext.components.text.data.color = post.color;
-        authortext.components.text.data.color = post.color;
-
-        fronttext.components.text.data.value = post.text;
-        shadowtext.components.text.data.value = post.text;
-        authortext.components.text.data.value = post.author;
-        authorback.components.text.data.value = post.author;
-
-
-        if (post.font) {
-            fronttext.components.text.data.font = base_url + post.font + '.json';
-            shadowtext.components.text.data.font = base_url + post.font + '.json';
-
+        for(const item of front){
+            item.components.text.data.color = post.color;
+            item.components.text.updateProperties();
+        }
+        for(const item of messages){
+            item.components.text.data.value = post.text;
+            item.components.text.updateProperties();
+        }
+        for(const item of authors){
+            item.components.text.data.value = post.author;
+            item.components.text.updateProperties();
+        }
+        for(const item of textnodes){
+            if (post.font) {
+                item.components.text.data.font = base_url + post.font + '.json';
+                item.components.text.updateProperties();
+            }
         }
 
-        shadowtext.components.text.updateProperties();
-        fronttext.components.text.updateProperties();
-        authortext.components.text.updateProperties();
-        authorback.components.text.updateProperties();
+        for(const fronttext of innerDoc.querySelectorAll('a-entity[messagecontainer]')){
+            console.log('post.scale',post.scale);
+            if (post.scale>0) {
+                let s = post.scale * 2;
+                console.log('post.scale calc',s);
+                if (s > 2.5) s = 2.5;
+                fronttext.setAttribute('scale', s + ' ' + s + ' ' + s);
 
-        if (post.scale) {
-            let s = post.scale * 2;
 
-            if (s > 2.5) s = 2.5;
-            fronttext.setAttribute('scale', s + ' ' + s + ' ' + s);
-            //shadowtext.setAttribute('scale', s + ' ' + s + ' ' + s);
-
+            }
         }
+
 
         i++;
         if (i < ARPosts.length) {

@@ -78,10 +78,10 @@ function render_cam_scene($mindfilename, $targetindexes)
                               animation="property: scale; to: 0.005 0.005 0.005; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                 ></a-gltf-model>
 
-                <a-entity>
+                <a-entity container>
 
                     <a-entity
-                            messagetext front
+                            messagetext front messagecontainer
                             text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $text ?>;negate:false; align:center; shader:msdf; color:<?php echo $_GET['text_color'] ?> ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
                             position="0 -1.2 0.1"
                             scale="<?php echo $scale . ' ' . $scale . ' ' . $scale ?>" rotation="0 0 0"
@@ -125,19 +125,23 @@ function render_cam_scene($mindfilename, $targetindexes)
                             </a-entity>-->
                         </a-entity>
 
-                        <a-image visible="true" class="clickable cam-left-arrow"
-                                 src="<?php echo $base_url; ?>/assets/arrow-left.png" position="-0.7 0 0" height="0.15"
-                                 width="0.15" material="" geometry=""></a-image>
-                        <a-image visible="true" class="clickable cam-right-arrow"
-                                 src="<?php echo $base_url; ?>/assets/arrow-right.png" position="0.7 0 0" height="0.15"
-                                 width="0.15" material="" geometry=""></a-image>
+
                     </a-entity>
 
                 </a-entity>
+
+                <a-image visible="true" class="clickable cam-left-arrow"
+                         src="<?php echo $base_url; ?>/assets/arrow-left.png" position="-0 0 0" height="0.15"
+                         width="1" material="" geometry=""></a-image>
+                <a-image visible="true" class="clickable cam-right-arrow"
+                         src="<?php echo $base_url; ?>/assets/arrow-right.png" position="0 0 0" height="0.15"
+                         width="1" material="" geometry=""></a-image>
             </a-entity>
             <?php
         }
         ?>
+
+
     </a-scene>
 
     <?php
