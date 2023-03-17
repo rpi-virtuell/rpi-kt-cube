@@ -28,8 +28,10 @@ class KtCube
         add_filter('the_content', array($this, 'addiframetocontent'));
         wp_enqueue_script('rpi-kt-cube-script', plugin_dir_url(__FILE__) . 'js/viewer.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('rpi-kt-cube-posts-script', plugin_dir_url(__FILE__) . 'js/rndposts.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('rpi-kt-cube-tootfeed', plugin_dir_url(__FILE__) . 'css/tootfeed.css');
         add_action('wp_head', array($this, 'head_scripts'));
         add_shortcode('ar_posts_shuffle', array($this, 'shuffle_ar_posts'));
+        add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
 
     }
 
@@ -102,8 +104,23 @@ class KtCube
         ?>">
         </iframe>
         <script>
-             const ARPosts =<?php echo json_encode($arpostsarray) ?>;
+            const ARPosts =<?php echo json_encode($arpostsarray) ?>;
         </script>
+        <?php
+        return ob_get_clean();
+    }
+
+    public function display_mastodon_feed()
+    {
+        ob_start();
+        ?>
+        <body>
+        <h1>Mastodon Feed - Example</h1>
+
+        <toot-feed>@zeitansagen@reliverse.social</toot-feed>
+
+        <script src="<?php echo plugin_dir_url(__FILE__) ?>/js/tootfeed.js"></script>
+        </body>
         <?php
         return ob_get_clean();
     }

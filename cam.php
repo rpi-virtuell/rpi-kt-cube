@@ -78,53 +78,62 @@ function render_cam_scene($mindfilename, $targetindexes)
                               animation="property: scale; to: 0.005 0.005 0.005; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                 ></a-gltf-model>
 
-                <a-entity
-                        messagetext front
-                        text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $text ?>;negate:false; align:center; shader:msdf; color:<?php echo $_GET['text_color'] ?> ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
-                        position="0 -1.2 0.1"
-                        scale="<?php echo $scale . ' ' . $scale . ' ' . $scale ?>" rotation="0 0 0"
-                        animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
-                        material="side:double"
+                <a-entity>
 
-                >
                     <a-entity
-                            messagetext back
-                            text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $text ?>;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:bottom"
-                            position="0.01 -0 -0.021"
+                            messagetext front
+                            text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $text ?>;negate:false; align:center; shader:msdf; color:<?php echo $_GET['text_color'] ?> ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
+                            position="0 -1.2 0.1"
+                            scale="<?php echo $scale . ' ' . $scale . ' ' . $scale ?>" rotation="0 0 0"
+                            animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                             material="side:double"
+
                     >
-
-                        <?php
-                        ?>
                         <a-entity
-                                authortext front
-                                text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $author ?>;negate:false; align:right; shader:msdf; color:<?php echo $_GET['text_color'] ?>; opacity:0.9 ; side:double; wrapPixels:400"
-                                position="0 -0.05 0"
-                                scale="0.5 0.5 0.5"
-                                rotation="0 0 0"
+                                messagetext back
+                                text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $text ?>;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:bottom"
+                                position="0.01 -0 -0.021"
                                 material="side:double"
+                        >
 
-                        ></a-entity>
-                        <a-entity
-                                authortext back
-                                text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $author ?>;negate:false; align:right; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:400"
-                                position="0.01 -0.05 -0.005"
-                                scale="0.5 0.5 0.5"
-                                rotation="0 0 0"
-                                material="side:double"
+                            <?php
+                            ?>
+                            <a-entity
+                                    authortext front
+                                    text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $author ?>;negate:false; align:right; shader:msdf; color:<?php echo $_GET['text_color'] ?>; opacity:0.9 ; side:double; wrapPixels:400"
+                                    position="0 -0.05 0"
+                                    scale="0.5 0.5 0.5"
+                                    rotation="0 0 0"
+                                    material="side:double"
 
-                        ></a-entity>
+                            ></a-entity>
+                            <a-entity
+                                    authortext back
+                                    text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $author ?>;negate:false; align:right; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:400"
+                                    position="0.01 -0.05 -0.005"
+                                    scale="0.5 0.5 0.5"
+                                    rotation="0 0 0"
+                                    material="side:double"
 
-                        <?php
-                        ?>
-                        <!--<a-entity geometry="primitive: circle" material="color:white; opacity:0.3" position="0 0.2 -0" width="2"
-                                  heigth="3">
+                            ></a-entity>
 
-                        </a-entity>-->
+                            <?php
+                            ?>
+                            <!--<a-entity geometry="primitive: circle" material="color:white; opacity:0.3" position="0 0.2 -0" width="2"
+                                      heigth="3">
+
+                            </a-entity>-->
+                        </a-entity>
+
+                        <a-image visible="true" class="clickable cam-left-arrow"
+                                 src="<?php echo $base_url; ?>/assets/arrow-left.png" position="-0.7 0 0" height="0.15"
+                                 width="0.15" material="" geometry=""></a-image>
+                        <a-image visible="true" class="clickable cam-right-arrow"
+                                 src="<?php echo $base_url; ?>/assets/arrow-right.png" position="0.7 0 0" height="0.15"
+                                 width="0.15" material="" geometry=""></a-image>
                     </a-entity>
+
                 </a-entity>
-
-
             </a-entity>
             <?php
         }
