@@ -100,9 +100,6 @@ jQuery(document).ready(() => {
             }
         }
 
-
-
-
     }
 
 
