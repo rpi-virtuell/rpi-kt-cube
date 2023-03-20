@@ -49,13 +49,17 @@ function render_cam_scene($mindfilename, $targetindexes)
     }
     ?>
 
-    <div class="cam-container" >
-        <div class=" cam-left-arrow">
-            <img src="<?php echo $base_url; ?>/assets/arrow-left.png">
-        </div>
-        <div class=" cam-right-arrow">
-            <img src="<?php echo $base_url; ?>/assets/arrow-right.png">
-        </div>
+    <div class="cam-container">
+        <?php if (isset($_GET['shuffle'])) {
+            ?>
+            <div class=" cam-left-arrow">
+                <img src="<?php echo $base_url; ?>/assets/arrow-left.png">
+            </div>
+            <div class=" cam-right-arrow">
+                <img src="<?php echo $base_url; ?>/assets/arrow-right.png">
+            </div>
+            <?php
+        } ?>
 
 
         <a-scene mindar-image="imageTargetSrc:<?php echo $base_url; ?>/assets/<?php echo $mindfilename ?>.mind;"
