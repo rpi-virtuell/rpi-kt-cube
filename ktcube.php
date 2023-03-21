@@ -33,6 +33,7 @@ class KtCube
         add_action('wp_head', array($this, 'head_scripts'));
         add_shortcode('ar_posts_shuffle', array($this, 'shuffle_ar_posts'));
         add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
+        add_filter('feedzy_feed_items', array($this, 'filter_redundant_items'), 10, 2);
 
     }
 
@@ -123,6 +124,28 @@ class KtCube
         <?php
         return ob_get_clean();
     }
+
+    public function filter_redundant_items($items, $feedURL)
+    {
+        foreach ($items as $key => $item) {
+            $zeitansagen = get_posts(array(
+                'numberposts' => 1,
+                'category' => 0,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'include' => array(),
+                'exclude' => array(),
+                'meta_key' => 'feedzy_item_url',
+                'meta_value' => $item->url,
+                'post_type' => 'zeitansagen',));
+
+            if (!empty($zeitansagen)) {
+                unset($items[$key]);
+            }
+        }
+        return $items;
+    }
+
 }
 
 new KtCube();
