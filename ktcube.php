@@ -36,9 +36,42 @@ class KtCube
         add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
         add_filter('feedzy_feed_items', array($this, 'filter_redundant_items'), 10, 2);
         add_action('pre_get_posts',array($this, 'allow_draft_preview') );
+        add_action('wp_head',array($this, 'send_matrix_message'));
 
     }
 
+    /**
+     * intend to prepare message for Matrix Channel
+     * fires neue_zeitansage Hook on first preview to send
+     *
+     * @return void
+     */
+    public function send_matrix_message( ){
+        if (isset($_GET['key']) && $_GET['key'] == 'guest' && is_singular('post') && get_post_status() === 'draft'){
+            global $post;
+
+            if(!get_post_meta($post->ID,'matrix_info', true)) {
+
+                $c = new stdClass();
+                $c->permalink       = get_permalink($post);
+                $c->post_title      = $post->post_title;
+                $c->post_status     = $post->post_status;
+                $c->post_id         = $post->ID;
+                $c->post_edit_url   = get_edit_post_link($post->ID);;
+                $c->content         = get_post_meta($post->ID, 'text', true);
+                $c->author_name     = get_post_meta($post->ID, 'author', true);
+
+                update_post_meta( $post->ID , 'matrix_info' , 1);
+
+                do_action('neue_zeitansage', $c);
+            }
+
+        }
+
+
+
+
+    }
     public function head_scripts()
     {
         ?>
