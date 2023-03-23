@@ -1,7 +1,12 @@
-toot-feed {
+toot-feed, .include-mastodon-feed {
     display: grid;
     margin: 0 auto;
     max-width: 750px;
+    grid-gap: 5px;
+}
+
+.status {
+    background-color: white !important;
 }
 
 h1 {
@@ -54,13 +59,14 @@ small {
 }
 
 @media screen and (min-width: 600px) {
-    toot-feed {
+
+    toot-feed, .include-mastodon-feed {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media screen and (min-width: 992px) {
-    toot-feed {
+    toot-feed, .include-mastodon-feed {
         grid-template-columns: repeat(3, 1fr);
     }
 }

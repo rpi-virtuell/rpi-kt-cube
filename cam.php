@@ -33,9 +33,9 @@ function render_cam_scene($mindfilename, $targetindexes)
     }
 
     if (isset($_GET['text_scale'])) {
-        $scale = intval($_GET['text_scale']) * 2;
+        $scale = intval($_GET['text_scale']);
     } else {
-        $scale = 5;
+        $scale = 1;
     }
     if (isset($_GET['font'])) {
         $font = $_GET['font'];
@@ -47,6 +47,11 @@ function render_cam_scene($mindfilename, $targetindexes)
     } else {
         $author = '';
     }
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+    } else {
+        $id = '';
+    }
     ?>
 
     <div class="cam-container">
@@ -57,6 +62,14 @@ function render_cam_scene($mindfilename, $targetindexes)
             </div>
             <div class=" cam-right-arrow">
                 <img src="<?php echo $base_url; ?>/assets/arrow-right.png">
+            </div>
+
+            <?php
+        } ?>
+        <?php if (!empty($id)) {
+            ?>
+            <div class="id">
+                <?php echo $id ?>
             </div>
             <?php
         } ?>

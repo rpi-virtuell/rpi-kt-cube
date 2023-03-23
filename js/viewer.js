@@ -55,7 +55,7 @@ jQuery(document).ready($ => {
     $('.acf-field-range input').on('change', function (e) {
         const iframe = document.getElementById('viewer');
         const innerDoc = iframe.contentDocument;
-        for (const enti of innerDoc.querySelectorAll('a-entity[messagetext]')) {
+        for (const enti of innerDoc.querySelectorAll('a-entity[messagecontainer]')) {
             var scale = $(e.target).val();
             enti.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
         }

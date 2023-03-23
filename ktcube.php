@@ -24,6 +24,7 @@ class KtCube
 
     public function __construct()
     {
+        add_action('wp_head', array($this, 'force_redirect'));
         define('KTCUBE_ASSETS_URL', plugin_dir_url(__FILE__) . '/assets/');
         add_filter('the_content', array($this, 'addiframetocontent'));
         wp_enqueue_script('rpi-kt-cube-script', plugin_dir_url(__FILE__) . 'js/viewer.js', array('jquery'), '1.0.0', true);
@@ -34,6 +35,7 @@ class KtCube
         add_shortcode('ar_posts_shuffle', array($this, 'shuffle_ar_posts'));
         add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
         add_filter('feedzy_feed_items', array($this, 'filter_redundant_items'), 10, 2);
+        add_action('pre_get_posts',array($this, 'allow_draft_preview') );
 
     }
 
@@ -53,6 +55,7 @@ class KtCube
         if (get_post_type() == "post") {
 
 
+            $id = get_the_ID();
             $model = get_post_meta(get_the_ID(), 'model', true);
             $font = get_post_meta(get_the_ID(), 'font', true);
             $text_color = urlencode(get_post_meta(get_the_ID(), 'text_color', true));
@@ -66,6 +69,7 @@ class KtCube
             echo
                 plugin_dir_url(__FILE__) . '/cam.php' .
                 '?model=' . $model .
+                '&id='. $id .
                 '&font=' . $font .
                 '&text_color=' . $text_color .
                 '&text=' . $text .
@@ -88,6 +92,7 @@ class KtCube
 
         foreach ($arposts as $arpost) {
             $obj = new stdClass();
+            $obj->id = $arpost->ID;
             $obj->model = get_post_meta($arpost->ID, 'model', true);
             $obj->font = get_post_meta($arpost->ID, 'font', true);
             $obj->scale = get_post_meta($arpost->ID, 'text_scale', true);
@@ -146,6 +151,23 @@ class KtCube
         return $items;
     }
 
+    function allow_draft_preview($query)
+    {
+        if (isset($_GET['key']) && $_GET['key'] == 'guest') {
+            if ($query->is_main_query()) {
+                $query->set('post_status', array('publish', 'draft'));
+            }
+        }
+    }
+
+    function force_redirect(){
+
+        if (isset($_GET['key']) && $_GET['key'] == 'guest' && get_post_status() === 'publish')
+        {
+            wp_redirect(get_post_permalink());
+        }
+
+    }
 }
 
 new KtCube();
