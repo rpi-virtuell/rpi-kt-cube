@@ -1,10 +1,4 @@
-jQuery(document).ready(() => {
-
-
-
-
-
-
+jQuery(document).ready(($) => {
 
 
     setTimeout(() => {
@@ -17,8 +11,19 @@ jQuery(document).ready(() => {
             $iframe = jQuery('iframe');
             $right = $iframe.contents().find('.cam-right-arrow');
             $left = $iframe.contents().find('.cam-left-arrow');
-            $id = $iframe.contents().find('cam-id')
 
+
+            $iframe.contents().find('#cam-id').on('click' , (event) => {
+                const iframe = document.getElementById('cam');
+                const innerDoc = iframe.contentDocument;
+                const camera = innerDoc.querySelector('a-camera');
+                console.log(camera);
+
+                camera.setAttribute('zoom',3);
+                console.log(camera);
+
+
+            });
 
             $right.on("click", (event) => {
                 display_next('right');
@@ -28,34 +33,28 @@ jQuery(document).ready(() => {
                 display_next('left');
             });
 
-            $id.innerHTML = ARPosts[KtCube.postnuber].id;
 
         }
 
-
     }, 2000)
-
 
     function display_next(dir) {
 
-        if(dir === 'left'){
-            KtCube.postnuber --;
-        }else{
-            KtCube.postnuber ++;
+        if (dir === 'left') {
+            KtCube.postnuber--;
+        } else {
+            KtCube.postnuber++;
         }
 
         var i = KtCube.postnuber;
 
         if (i < 0) {
-            i =  ARPosts.length-1;
-            KtCube.postnuber = i ;
-        }else if(i > ARPosts.length-1) {
+            i = ARPosts.length - 1;
+            KtCube.postnuber = i;
+        } else if (i > ARPosts.length - 1) {
             i = 0;
             KtCube.postnuber = i;
         }
-
-
-
 
 
         const iframe = document.getElementById('cam');
@@ -67,43 +66,43 @@ jQuery(document).ready(() => {
         const authors = innerDoc.querySelectorAll('a-entity[authortext]');
 
 
-
         const base_url = KtCube.assetsUrl;
 
 
         let post = ARPosts[i];
 
-        console.log(KtCube.postnuber, i,ARPosts.length, post);
+        console.log(KtCube.postnuber, i, ARPosts.length, post);
 
 
-        for(const item of front){
+        for (const item of front) {
             item.components.text.data.color = post.color;
             item.components.text.updateProperties();
         }
-        for(const item of messages){
+        for (const item of messages) {
             item.components.text.data.value = post.text;
             item.components.text.updateProperties();
         }
-        for(const item of authors){
+        for (const item of authors) {
             item.components.text.data.value = post.author;
             item.components.text.updateProperties();
         }
-        for(const item of textnodes){
+        for (const item of textnodes) {
             if (post.font) {
                 item.components.text.data.font = base_url + post.font + '.json';
                 item.components.text.updateProperties();
             }
         }
 
-        for(const fronttext of innerDoc.querySelectorAll('a-entity[messagecontainer]')){
-            if (post.scale>0) {
-                let s = post.scale * 1.5;
-                if (s > 2.5) s = 2.5;
+        for (const fronttext of innerDoc.querySelectorAll('a-entity[messagecontainer]')) {
+            if (post.scale > 0) {
+                let s = post.scale * 3;
+
                 fronttext.setAttribute('scale', s + ' ' + s + ' ' + s);
 
 
             }
         }
+        innerDoc.getElementById('cam-id').innerHTML = post.id;
 
     }
 

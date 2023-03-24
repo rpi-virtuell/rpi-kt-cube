@@ -13,7 +13,7 @@
 <body>
 
 <?php
-render_cam_scene('multi-targets', 3);
+render_cam_scene('targets', 4  );
 ?>
 </body>
 </html>
@@ -33,9 +33,9 @@ function render_cam_scene($mindfilename, $targetindexes)
     }
 
     if (isset($_GET['text_scale'])) {
-        $scale = intval($_GET['text_scale']);
+        $scale = intval($_GET['text_scale'])* 3;
     } else {
-        $scale = 1;
+        $scale = 3;
     }
     if (isset($_GET['font'])) {
         $font = $_GET['font'];
@@ -67,7 +67,7 @@ function render_cam_scene($mindfilename, $targetindexes)
             <?php
         } ?>
 
-        <div class="cam-id">
+        <div id="cam-id">
             <?php echo $id ?>
         </div>
 
@@ -84,7 +84,9 @@ function render_cam_scene($mindfilename, $targetindexes)
                           position="0 0 -3"
                           scale="0.01 0.01 0.01"
                           animation="property: position; to: 0 0 0; dur: 1000; easing: easeInOutQuad; loop:1"></a-gltf-model>
-            <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+            <a-camera position="0 0 0" look-controls="enabled: false">
+                <a-animation begin="click" attribute="camera.zoom" from="1" to="2" dur="10000"></a-animation>
+            </a-camera>
 
             <?php
 
