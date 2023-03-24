@@ -66,13 +66,10 @@ function render_cam_scene($mindfilename, $targetindexes)
 
             <?php
         } ?>
-        <?php if (!empty($id)) {
-            ?>
-            <div class="id">
-                <?php echo $id ?>
-            </div>
-            <?php
-        } ?>
+
+        <div class="cam-id">
+            <?php echo $id ?>
+        </div>
 
 
         <a-scene mindar-image="imageTargetSrc:<?php echo $base_url; ?>/assets/<?php echo $mindfilename ?>.mind;"

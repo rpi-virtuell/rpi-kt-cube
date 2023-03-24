@@ -23,7 +23,7 @@
     border-radius: 15px;
     background-color: white;
 }
-.cam-container .id {
+.cam-container .cam-id {
     position: absolute;
     z-index: 3;
     bottom: 15px;

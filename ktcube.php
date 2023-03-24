@@ -35,8 +35,9 @@ class KtCube
         add_shortcode('ar_posts_shuffle', array($this, 'shuffle_ar_posts'));
         add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
         add_filter('feedzy_feed_items', array($this, 'filter_redundant_items'), 10, 2);
-        add_action('pre_get_posts',array($this, 'allow_draft_preview') );
-        add_action('wp_head',array($this, 'send_matrix_message'));
+        add_action('pre_get_posts', array($this, 'allow_draft_preview'));
+        add_action('wp_head', array($this, 'send_matrix_message'));
+        add_action('wp_head', array($this, 'handle_matrix_requests'));
 
     }
 
@@ -46,22 +47,23 @@ class KtCube
      *
      * @return void
      */
-    public function send_matrix_message( ){
-        if (isset($_GET['key']) && $_GET['key'] == 'guest' && is_singular('post') && get_post_status() === 'draft'){
+    public function send_matrix_message()
+    {
+        if (isset($_GET['key']) && $_GET['key'] == 'guest' && is_singular('post') && get_post_status() === 'draft') {
             global $post;
 
-            if(!get_post_meta($post->ID,'matrix_info', true)) {
+            if (!get_post_meta($post->ID, 'matrix_info', true)) {
 
                 $c = new stdClass();
-                $c->permalink       = get_permalink($post);
-                $c->post_title      = $post->post_title;
-                $c->post_status     = $post->post_status;
-                $c->post_id         = $post->ID;
-                $c->post_edit_url   = get_edit_post_link($post->ID);;
-                $c->content         = get_post_meta($post->ID, 'text', true);
-                $c->author_name     = get_post_meta($post->ID, 'author', true);
+                $c->permalink = get_permalink($post);
+                $c->post_title = $post->post_title;
+                $c->post_status = $post->post_status;
+                $c->post_id = $post->ID;
+                $c->post_edit_url = get_edit_post_link($post->ID);;
+                $c->content = get_post_meta($post->ID, 'text', true);
+                $c->author_name = get_post_meta($post->ID, 'author', true);
 
-                update_post_meta( $post->ID , 'matrix_info' , 1);
+                update_post_meta($post->ID, 'matrix_info', 1);
 
                 do_action('neue_zeitansage', $c);
             }
@@ -69,9 +71,8 @@ class KtCube
         }
 
 
-
-
     }
+
     public function head_scripts()
     {
         ?>
@@ -102,7 +103,7 @@ class KtCube
             echo
                 plugin_dir_url(__FILE__) . '/cam.php' .
                 '?model=' . $model .
-                '&id='. $id .
+                '&id=' . $id .
                 '&font=' . $font .
                 '&text_color=' . $text_color .
                 '&text=' . $text .
@@ -184,7 +185,7 @@ class KtCube
         return $items;
     }
 
-    function allow_draft_preview($query)
+    public function allow_draft_preview($query)
     {
         if (isset($_GET['key']) && $_GET['key'] == 'guest') {
             if ($query->is_main_query()) {
@@ -193,13 +194,30 @@ class KtCube
         }
     }
 
-    function force_redirect(){
+    public function force_redirect()
+    {
 
-        if (isset($_GET['key']) && $_GET['key'] == 'guest' && get_post_status() === 'publish')
-        {
+        if (isset($_GET['key']) && $_GET['key'] == 'guest' && get_post_status() === 'publish') {
             wp_redirect(get_post_permalink());
         }
 
+    }
+
+    public function handle_matrix_requests()
+    {
+        if (is_user_logged_in() && current_user_can('delete_posts') && isset($_GET['do_delete']) && $_GET['do_delete'] == 'yes') {
+            wp_update_post(array(
+                'id' => get_the_ID(),
+                'post_status' => 'trash'
+            ));
+        }
+        if (is_user_logged_in() && current_user_can('publish_posts') && isset($_GET['do_publish']) && $_GET['do_publish'] == 'yes') {
+            wp_update_post(array(
+                'id' => get_the_ID(),
+                'post_status' => 'publish'
+            ));
+
+        }
     }
 }
 

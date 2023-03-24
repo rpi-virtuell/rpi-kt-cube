@@ -17,6 +17,7 @@ jQuery(document).ready(() => {
             $iframe = jQuery('iframe');
             $right = $iframe.contents().find('.cam-right-arrow');
             $left = $iframe.contents().find('.cam-left-arrow');
+            $id = $iframe.contents().find('cam-id')
 
 
             $right.on("click", (event) => {
@@ -26,6 +27,9 @@ jQuery(document).ready(() => {
             $left.on("click", (event) => {
                 display_next('left');
             });
+
+            $id.innerHTML = ARPosts[KtCube.postnuber].id;
+
         }
 
 
@@ -70,6 +74,7 @@ jQuery(document).ready(() => {
         let post = ARPosts[i];
 
         console.log(KtCube.postnuber, i,ARPosts.length, post);
+
 
         for(const item of front){
             item.components.text.data.color = post.color;
