@@ -38,6 +38,8 @@ class KtCube
         add_action('pre_get_posts', array($this, 'allow_draft_preview'));
         add_action('wp_head', array($this, 'send_matrix_message'));
         add_action('wp_head', array($this, 'handle_matrix_requests'));
+        add_filter('the_content', array($this, 'single_ar_posts'));
+
 
     }
 
@@ -80,6 +82,8 @@ class KtCube
             KtCube = {};
             KtCube.pluginUrl = '<?php echo plugin_dir_url(__FILE__) ?>';
             KtCube.assetsUrl = '<?php echo KTCUBE_ASSETS_URL ?>';
+            KtCube.scalefactor = <?php echo get_option('options_scale_factor',4) ?>;
+            KtCube.zoomfactor = <?php echo get_option('options_zoom_factor',0.3) ?>;
         </script>
         <?php
     }
@@ -149,6 +153,36 @@ class KtCube
         </script>
         <?php
         return ob_get_clean();
+    }
+    public function single_ar_posts($return)
+    {
+        if(is_singular('post') ){
+
+            $arpost = get_post(get_the_ID());
+
+            $obj = new stdClass();
+            $obj->id = $arpost->ID;
+            $obj->model = get_post_meta($arpost->ID, 'model', true);
+            $obj->font = get_post_meta($arpost->ID, 'font', true);
+            $obj->scale = get_post_meta($arpost->ID, 'text_scale', true);
+            $obj->color = get_post_meta($arpost->ID, 'text_color', true);
+            $obj->text = get_post_meta($arpost->ID, 'text', true);
+            $obj->author = get_post_meta($arpost->ID, 'author', true);
+            $arpostsarray[] = $obj;
+            ob_start();
+            ?>
+            <iframe id="cam" frameBorder="0" style="height:90vh; width: 100%; border: 0;" src="<?php
+            echo
+                plugin_dir_url(__FILE__) . '/cam.php'
+            ?>">
+            </iframe>
+            <script>
+                const ARPosts =<?php echo json_encode($arpostsarray) ?>;
+            </script>
+            <?php
+            return ob_get_clean();
+        }
+        return $return;
     }
 
     public function display_mastodon_feed()

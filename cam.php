@@ -7,14 +7,34 @@
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+    <link rel="stylesheet" href="/wp-includes/css/dashicons.min.css">
     <link rel="stylesheet" href="css/cam.css">
+    <script>
 
+        AFRAME.registerComponent("logo", {
+            init: function() {
+                console.log('listen');
+                 this.el.addEventListener("click", () => {
+                    console.log('clicked');
+                    parent.window.KtCube.currentscale = parent.window.KtCube.currentscale + 0.1
+                    for (const fronttext of document.querySelectorAll('a-entity[messagecontainer]')) {
+                        if (KtCube.currentscale > 0) {
+                            let s= Ktparent.KtCube.currentscale;
+                            fronttext.setAttribute('scale', s + ' ' + s + ' ' + s);
+
+                        }
+                    }
+                })
+            }}
+        );
+    </script>
 </head>
 <body>
 
 <?php
 render_cam_scene('targets', 4  );
 ?>
+
 </body>
 </html>
 
@@ -25,7 +45,7 @@ function render_cam_scene($mindfilename, $targetindexes)
 {
     $base_url = str_replace('/cam.php', '', 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']);
 
-
+    /*
     if (isset($_GET['text'])) {
         $text = $_GET['text'];
     } else {
@@ -52,6 +72,7 @@ function render_cam_scene($mindfilename, $targetindexes)
     } else {
         $id = '';
     }
+    */
     ?>
 
     <div class="cam-container">
@@ -70,7 +91,10 @@ function render_cam_scene($mindfilename, $targetindexes)
         <div id="cam-id">
             <?php echo $id ?>
         </div>
-
+        <div id="text-zoom">
+            <a href="#" id="text-zoom-minus"><span class="dashicons dashicons-minus"></span></a>
+            <a  href="#" id="text-zoom-plus"><span class="dashicons dashicons-plus-alt2"></span></a>
+        </div>
 
         <a-scene mindar-image="imageTargetSrc:<?php echo $base_url; ?>/assets/<?php echo $mindfilename ?>.mind;"
                  color-space="sRGB"
@@ -79,11 +103,11 @@ function render_cam_scene($mindfilename, $targetindexes)
             <a-assets>
                 <a-asset-item id="logo" src="<?php echo $base_url; ?>/assets/Jetzt-ist-die-Zeit.glb"></a-asset-item>
             </a-assets>
-            <a-gltf-model logo src="#logo"
+            <a-gltf-model src="#logo"
                           rotation="90 0 0 "
-                          position="0 0 -3"
+                          position="0 0 -5"
                           scale="0.01 0.01 0.01"
-                          animation="property: position; to: 0 0 0; dur: 1000; easing: easeInOutQuad; loop:1"></a-gltf-model>
+                          animation="property: position; to: 0 0 -0.1; dur: 1000; easing: easeInOutQuad; loop:1"></a-gltf-model>
             <a-camera position="0 0 0" look-controls="enabled: false">
                 <a-animation begin="click" attribute="camera.zoom" from="1" to="2" dur="10000"></a-animation>
             </a-camera>
@@ -108,16 +132,16 @@ function render_cam_scene($mindfilename, $targetindexes)
 
                         <a-entity
                                 messagetext front messagecontainer
-                                text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $text ?>;negate:false; align:center; shader:msdf; color:<?php echo $_GET['text_color'] ?> ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
+                                text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ...;negate:false; align:center; shader:msdf; color:#ffffff ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
                                 position="0 -1.2 0.1"
-                                scale="<?php echo $scale . ' ' . $scale . ' ' . $scale ?>" rotation="0 0 0"
+                                scale="0.5 0.5 0.5" rotation="0 0 0"
                                 animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                                 material="side:double"
 
                         >
                             <a-entity
                                     messagetext back
-                                    text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $text ?>;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:bottom"
+                                    text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ...;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:bottom"
                                     position="0.01 -0 -0.021"
                                     material="side:double"
                             >
@@ -126,7 +150,7 @@ function render_cam_scene($mindfilename, $targetindexes)
                                 ?>
                                 <a-entity
                                         authortext front
-                                        text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $author ?>;negate:false; align:right; shader:msdf; color:<?php echo $_GET['text_color'] ?>; opacity:0.9 ; side:double; wrapPixels:400"
+                                        text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#ffffff ; opacity:0.9 ; side:double; wrapPixels:400"
                                         position="0 -0.05 0"
                                         scale="0.5 0.5 0.5"
                                         rotation="0 0 0"
@@ -135,7 +159,7 @@ function render_cam_scene($mindfilename, $targetindexes)
                                 ></a-entity>
                                 <a-entity
                                         authortext back
-                                        text="font:<?php echo $base_url; ?>/assets/<?php echo $font ?>.json; value: <?php echo $author ?>;negate:false; align:right; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:400"
+                                        text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:400"
                                         position="0.01 -0.05 -0.005"
                                         scale="0.5 0.5 0.5"
                                         rotation="0 0 0"
