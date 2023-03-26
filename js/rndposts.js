@@ -38,9 +38,11 @@ jQuery(document).ready(($) => {
             $iframe = jQuery('iframe');
             $right = $iframe.contents().find('.cam-right-arrow');
             $left = $iframe.contents().find('.cam-left-arrow');
+            $link = $iframe.contents().find('#cam-post-id');
+            $sharBtn = $iframe.contents().find('#cam-share-screenshot');
 
 
-            $iframe.contents().find('#text-zoom-plus').on('click' , (event) => {
+            $iframe.contents().find('#cam-text-zoom-plus').on('click' , (event) => {
                 KtCube.currentscale = KtCube.currentscale + KtCube.zoomfactor;
                 KtCube.currentpos = KtCube.currentpos  + 0.05;
                 KtCube.currentY = KtCube.currentY  + 0.05;
@@ -50,9 +52,10 @@ jQuery(document).ready(($) => {
                     z: KtCube.ModelPosition.z
                 };
                 zoom(KtCube.currentscale,pos);
+
                 return false;
             });
-            $iframe.contents().find('#text-zoom-minus').on('click' , (event) => {
+            $iframe.contents().find('#cam-text-zoom-minus').on('click' , (event) => {
                 KtCube.currentscale = KtCube.currentscale - KtCube.zoomfactor;
                 KtCube.currentY = KtCube.currentY  - 0.05;
                 let pos = {
@@ -61,15 +64,26 @@ jQuery(document).ready(($) => {
                     z: KtCube.ModelPosition.z
                 };
                 zoom(KtCube.currentscale,pos);
+
                 return false;
             });
 
             $right.on("click", (event) => {
+                event.target.blur();
                 display_next('right');
 
             });
             $left.on("click", (event) => {
                 display_next('left');
+
+            });
+            $sharBtn.on("click", (event) => {
+                share_screenshot();
+
+            });
+            $link.on("click", (event) => {
+                navigator.share(get_share_data().data);
+
             });
 
             const iframe = document.getElementById('cam');
@@ -89,6 +103,7 @@ jQuery(document).ready(($) => {
 
 
         }
+
     }
 
     function zoom(factor,pos){
@@ -182,6 +197,90 @@ jQuery(document).ready(($) => {
             model.setAttribute('position', KtCube.ModelPosition.x+' '+KtCube.ModelPosition.y+' '+KtCube.ModelPosition.z);
         }
         innerDoc.getElementById('cam-id').innerHTML = post.id;
+
+    }
+
+    function get_share_data(){
+
+        const iframe = document.getElementById('cam');
+        const innerDoc = iframe.contentDocument;
+
+        let id = innerDoc.querySelector('#cam-id').innerHTML;
+        let message = innerDoc.querySelector('a-entity[messagetext]');
+
+
+        return {
+            data: {
+                    url: 'https://'+location.host+'/'+id,
+                    title: 'AR auf dem Kichentag: Halte deine Cam über das aktuelle Kirchentagsmotto und entdecke die #zeitansagen: ' +message.components.text.data.value,
+                    text: message.components.text.data.value,
+                },
+            id: id
+        }
+    }
+
+    /**
+     * https://github.com/hiukim/mind-ar-js/discussions/73
+     *
+     */
+    function share_screenshot(){
+
+        const iframe = document.getElementById('cam');
+        const innerDoc = iframe.contentDocument;
+
+
+
+        let id= get_share_data().id;
+
+        const video = innerDoc.querySelector("video");
+        video.pause();
+
+        const canvas = innerDoc.createElement("canvas");
+
+        let v_width = video.clientWidth*2;
+        let v_height = video.clientHeight*2;
+
+        canvas.width = v_width;
+        canvas.height = v_height;
+
+        let element = innerDoc.querySelector('video'),
+            style = window.getComputedStyle(element),
+            toppos = style.getPropertyValue('top');
+        canvas.getContext('2d').drawImage(video, 0, parseFloat(toppos), v_width, v_height);
+
+        let imgData = innerDoc.querySelector('a-scene').components.screenshot.getCanvas('perspective');
+
+        canvas.getContext('2d').drawImage(imgData, 0, 0, v_width, v_height);
+
+        video.play();
+
+        let a = innerDoc.createElement('a');
+        a.href = canvas.toDataURL("image/png");
+        a.download = 'zeitansage-'+id+'.png';
+        a.click();
+
+        if(!navigator.userAgent.match(/chrome\/\d+/i)){
+            //funktioniert nicht wie erwartet.
+        }else{
+            //funktioniert nicht immer wie erwartet.
+
+            canvas.toBlob((blob)=>{
+                const file =  new File(
+                    [blob],
+                    'zeitansage.png',
+                    {
+                        type: blob.type,
+                        lastModified: new Date().getTime()
+                    }
+                );
+                navigator.share({
+                    title:'#zeitansagen',
+                    //url: canvas.toDataURL("image/png"),
+                    files: [file]
+                });
+
+            },"image/png");
+        }
 
     }
 

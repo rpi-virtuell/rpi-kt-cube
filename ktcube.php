@@ -33,7 +33,7 @@ class KtCube
         wp_enqueue_style('rpi-kt-cube-cam', plugin_dir_url(__FILE__) . 'css/cam.css');
         add_action('wp_head', array($this, 'head_scripts'));
         add_shortcode('ar_posts_shuffle', array($this, 'shuffle_ar_posts'));
-        add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
+        //add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
         add_filter('feedzy_feed_items', array($this, 'filter_redundant_items'), 10, 2);
         add_action('pre_get_posts', array($this, 'allow_draft_preview'));
         add_action('wp_head', array($this, 'send_matrix_message'));
