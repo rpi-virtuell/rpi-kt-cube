@@ -141,7 +141,7 @@ function render_cam_scene($mindfilename, $targetindexes)
                         <a-entity
                                 messagetext front messagecontainer
                                 text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ...;negate:false; align:center; shader:msdf; color:#ffffff ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
-                                position="0 -1.2 0.1"
+                                position="0 -1 0.1"
                                 scale="0.5 0.5 0.5" rotation="0 0 0"
                                 animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                                 material="side:double"

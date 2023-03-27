@@ -44,8 +44,8 @@ jQuery(document).ready(($) => {
 
             $iframe.contents().find('#cam-text-zoom-plus').on('click' , (event) => {
                 KtCube.currentscale = KtCube.currentscale + KtCube.zoomfactor;
-                KtCube.currentpos = KtCube.currentpos  + 0.05;
-                KtCube.currentY = KtCube.currentY  + 0.05;
+                KtCube.currentpos = KtCube.currentpos  + 0.02;
+                KtCube.currentY = KtCube.currentY  + 0.02;
                 let pos = {
                     x: KtCube.ModelPosition.x,
                     y: KtCube.ModelPosition.y  + KtCube.currentY,
@@ -57,7 +57,7 @@ jQuery(document).ready(($) => {
             });
             $iframe.contents().find('#cam-text-zoom-minus').on('click' , (event) => {
                 KtCube.currentscale = KtCube.currentscale - KtCube.zoomfactor;
-                KtCube.currentY = KtCube.currentY  - 0.05;
+                KtCube.currentY = KtCube.currentY  - 0.02;
                 let pos = {
                     x: KtCube.ModelPosition.x,
                     y: KtCube.ModelPosition.y  + KtCube.currentY,
@@ -116,7 +116,9 @@ jQuery(document).ready(($) => {
         }
         for (const model of innerDoc.querySelectorAll('a-gltf-model[logo]')) {
             if (factor > 0) {
+
                 model.setAttribute('position', pos.x+' '+pos.y+' '+pos.z);
+
             }
         }
 
@@ -190,6 +192,16 @@ jQuery(document).ready(($) => {
                 fronttext.setAttribute('scale', s + ' ' + s + ' ' + s);
 
             }
+        }
+        for (const fronttext of innerDoc.querySelectorAll('a-entity[messagecontainer]')) {
+
+            let y = get_top_position();
+            let pos = fronttext.getAttribute('position');
+            const startY  = KtCube.ModelPosition.y -0.3;
+            y = startY+y;
+            console.log('posY',y);
+            fronttext.setAttribute('position', pos.x + ' ' + y + ' ' + pos.z);
+
         }
 
 
@@ -283,6 +295,32 @@ jQuery(document).ready(($) => {
         }
 
     }
+
+    function get_top_position(){
+        const iframe = document.getElementById('cam');
+        const innerDoc = iframe.contentDocument;
+        const message = innerDoc.querySelector('a-entity[messagecontainer]');
+        const lines = message.components.text.data.value.split("\n");
+
+        const scale = message.getAttribute('scale');
+
+        console.log('scale', scale);
+
+        const h = 0.20;
+
+        let counter = lines.length;
+        for (const line of lines){
+            if (line.length > 30){
+                counter ++;
+            }
+        }
+
+        console.log('counter', counter);
+
+        return counter * h *-1;
+
+    }
+
 
 
 });
