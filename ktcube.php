@@ -29,8 +29,10 @@ class KtCube
         add_filter('the_content', array($this, 'addiframetocontent'));
         wp_enqueue_script('rpi-kt-cube-script', plugin_dir_url(__FILE__) . 'js/viewer.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('rpi-kt-cube-posts-script', plugin_dir_url(__FILE__) . 'js/rndposts.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_script('rpi-kt-cube-default-script', plugin_dir_url(__FILE__) . 'js/default.js', array('jquery'), '1.0.0', true);
         wp_enqueue_style('rpi-kt-cube-tootfeed', plugin_dir_url(__FILE__) . 'css/tootfeed.css');
         wp_enqueue_style('rpi-kt-cube-cam', plugin_dir_url(__FILE__) . 'css/cam.css');
+        wp_enqueue_style('rpi-kt-cube-default', plugin_dir_url(__FILE__) . 'css/default.css');
         add_action('wp_head', array($this, 'head_scripts'));
         add_shortcode('ar_posts_shuffle', array($this, 'shuffle_ar_posts'));
         //add_shortcode('display_mastodon_feed', array($this, 'display_mastodon_feed'));
@@ -82,8 +84,8 @@ class KtCube
             KtCube = {};
             KtCube.pluginUrl = '<?php echo plugin_dir_url(__FILE__) ?>';
             KtCube.assetsUrl = '<?php echo KTCUBE_ASSETS_URL ?>';
-            KtCube.scalefactor = <?php echo get_option('options_scale_factor',4) ?>;
-            KtCube.zoomfactor = <?php echo get_option('options_zoom_factor',0.3) ?>;
+            KtCube.scalefactor = <?php echo get_option('options_scale_factor', 4) ?>;
+            KtCube.zoomfactor = <?php echo get_option('options_zoom_factor', 0.3) ?>;
         </script>
         <?php
     }
@@ -154,9 +156,10 @@ class KtCube
         <?php
         return ob_get_clean();
     }
+
     public function single_ar_posts($return)
     {
-        if(is_singular('post') ){
+        if (is_singular('post')) {
 
             $arpost = get_post(get_the_ID());
 

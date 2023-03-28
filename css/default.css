@@ -1,0 +1,21 @@
+#control-panel {
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: grid;
+    grid-gap: 3px;
+}
+
+#control-panel svg {
+    height: 30px;
+    width: 30px;
+    padding: 3px;
+}
+
+#control-panel svg:hover {
+    cursor: pointer;
+    background-color: #3cef00;
+    border-radius: 5px;
+}
+

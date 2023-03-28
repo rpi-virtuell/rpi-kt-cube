@@ -7,28 +7,28 @@ jQuery(document).ready(($) => {
      *
      * @type {number}
      */
-    window.check_scene_loaded = setInterval(()=>{
+    window.check_scene_loaded = setInterval(() => {
 
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
         const item = innerDoc.querySelector('a-entity[messagetext]');
 
-        if(typeof item.components === "object" && item.components.hasOwnProperty('text')){
+        if (typeof item.components === "object" && item.components.hasOwnProperty('text')) {
             clearInterval(window.check_scene_loaded);
             console.log('AR Loaded');
             start();
         }
 
 
-    },100)
+    }, 100)
 
 
     /**
      * init UI Buttons
      */
-    function start(){
+    function start() {
         KtCube.currentpos = 0;
-        KtCube.ModelPosition = {x:0,y:0,z:0};
+        KtCube.ModelPosition = {x: 0, y: 0, z: 0};
         KtCube.currentY = 0;
 
 
@@ -42,28 +42,28 @@ jQuery(document).ready(($) => {
             $sharBtn = $iframe.contents().find('#cam-share-screenshot');
 
 
-            $iframe.contents().find('#cam-text-zoom-plus').on('click' , (event) => {
+            $iframe.contents().find('#cam-text-zoom-plus').on('click', (event) => {
                 KtCube.currentscale = KtCube.currentscale + KtCube.zoomfactor;
-                KtCube.currentpos = KtCube.currentpos  + 0.02;
-                KtCube.currentY = KtCube.currentY  + 0.02;
+                KtCube.currentpos = KtCube.currentpos + 0.02;
+                KtCube.currentY = KtCube.currentY + 0.02;
                 let pos = {
                     x: KtCube.ModelPosition.x,
-                    y: KtCube.ModelPosition.y  + KtCube.currentY,
+                    y: KtCube.ModelPosition.y + KtCube.currentY,
                     z: KtCube.ModelPosition.z
                 };
-                zoom(KtCube.currentscale,pos);
+                zoom(KtCube.currentscale, pos);
 
                 return false;
             });
-            $iframe.contents().find('#cam-text-zoom-minus').on('click' , (event) => {
+            $iframe.contents().find('#cam-text-zoom-minus').on('click', (event) => {
                 KtCube.currentscale = KtCube.currentscale - KtCube.zoomfactor;
-                KtCube.currentY = KtCube.currentY  - 0.02;
+                KtCube.currentY = KtCube.currentY - 0.02;
                 let pos = {
                     x: KtCube.ModelPosition.x,
-                    y: KtCube.ModelPosition.y  + KtCube.currentY,
+                    y: KtCube.ModelPosition.y + KtCube.currentY,
                     z: KtCube.ModelPosition.z
                 };
-                zoom(KtCube.currentscale,pos);
+                zoom(KtCube.currentscale, pos);
 
                 return false;
             });
@@ -106,7 +106,7 @@ jQuery(document).ready(($) => {
 
     }
 
-    function zoom(factor,pos){
+    function zoom(factor, pos) {
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
         for (const fronttext of innerDoc.querySelectorAll('a-entity[messagecontainer]')) {
@@ -117,7 +117,7 @@ jQuery(document).ready(($) => {
         for (const model of innerDoc.querySelectorAll('a-gltf-model[logo]')) {
             if (factor > 0) {
 
-                model.setAttribute('position', pos.x+' '+pos.y+' '+pos.z);
+                model.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
 
             }
         }
@@ -197,22 +197,22 @@ jQuery(document).ready(($) => {
 
             let y = get_top_position();
             let pos = fronttext.getAttribute('position');
-            const startY  = KtCube.ModelPosition.y -0.3;
-            y = startY+y;
-            console.log('posY',y);
+            const startY = KtCube.ModelPosition.y - 0.3;
+            y = startY + y;
+            console.log('posY', y);
             fronttext.setAttribute('position', pos.x + ' ' + y + ' ' + pos.z);
 
         }
 
 
         for (const model of innerDoc.querySelectorAll('a-gltf-model[logo]')) {
-            model.setAttribute('position', KtCube.ModelPosition.x+' '+KtCube.ModelPosition.y+' '+KtCube.ModelPosition.z);
+            model.setAttribute('position', KtCube.ModelPosition.x + ' ' + KtCube.ModelPosition.y + ' ' + KtCube.ModelPosition.z);
         }
         innerDoc.getElementById('cam-id').innerHTML = post.id;
 
     }
 
-    function get_share_data(){
+    function get_share_data() {
 
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
@@ -223,10 +223,10 @@ jQuery(document).ready(($) => {
 
         return {
             data: {
-                    url: 'https://'+location.host+'/'+id,
-                    title: 'AR auf dem Kichentag: Halte deine Cam über das aktuelle Kirchentagsmotto und entdecke die #zeitansagen: ' +message.components.text.data.value,
-                    text: message.components.text.data.value,
-                },
+                url: 'https://' + location.host + '/' + id,
+                title: 'AR auf dem Kichentag: Halte deine Cam über das aktuelle Kirchentagsmotto und entdecke die #zeitansagen: ' + message.components.text.data.value,
+                text: message.components.text.data.value,
+            },
             id: id
         }
     }
@@ -235,22 +235,21 @@ jQuery(document).ready(($) => {
      * https://github.com/hiukim/mind-ar-js/discussions/73
      *
      */
-    function share_screenshot(){
+    function share_screenshot() {
 
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
 
 
-
-        let id= get_share_data().id;
+        let id = get_share_data().id;
 
         const video = innerDoc.querySelector("video");
         video.pause();
 
         const canvas = innerDoc.createElement("canvas");
 
-        let v_width = video.clientWidth*2;
-        let v_height = video.clientHeight*2;
+        let v_width = video.clientWidth * 2;
+        let v_height = video.clientHeight * 2;
 
         canvas.width = v_width;
         canvas.height = v_height;
@@ -268,16 +267,16 @@ jQuery(document).ready(($) => {
 
         let a = innerDoc.createElement('a');
         a.href = canvas.toDataURL("image/png");
-        a.download = 'zeitansage-'+id+'.png';
+        a.download = 'zeitansage-' + id + '.png';
         a.click();
 
-        if(!navigator.userAgent.match(/chrome\/\d+/i)){
+        if (!navigator.userAgent.match(/chrome\/\d+/i)) {
             //funktioniert nicht wie erwartet.
-        }else{
+        } else {
             //funktioniert nicht immer wie erwartet.
 
-            canvas.toBlob((blob)=>{
-                const file =  new File(
+            canvas.toBlob((blob) => {
+                const file = new File(
                     [blob],
                     'zeitansage.png',
                     {
@@ -286,17 +285,17 @@ jQuery(document).ready(($) => {
                     }
                 );
                 navigator.share({
-                    title:'#zeitansagen',
+                    title: '#zeitansagen',
                     //url: canvas.toDataURL("image/png"),
                     files: [file]
                 });
 
-            },"image/png");
+            }, "image/png");
         }
 
     }
 
-    function get_top_position(){
+    function get_top_position() {
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
         const message = innerDoc.querySelector('a-entity[messagecontainer]');
@@ -309,18 +308,17 @@ jQuery(document).ready(($) => {
         const h = 0.20;
 
         let counter = lines.length;
-        for (const line of lines){
-            if (line.length > 30){
-                counter ++;
+        for (const line of lines) {
+            if (line.length > 30) {
+                counter++;
             }
         }
 
         console.log('counter', counter);
 
-        return counter * h *-1;
+        return counter * h * -1;
 
     }
-
 
 
 });
