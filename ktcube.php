@@ -240,15 +240,28 @@ class KtCube
 
     }
 
+    /**
+     * action_hook wp_head
+     * @return void
+     */
     public function handle_matrix_requests()
     {
-        if (is_user_logged_in() && current_user_can('delete_posts') && isset($_GET['do_delete']) && $_GET['do_delete'] == 'yes') {
+        //display Login form if user not logged in
+        if(!is_user_logged_in() && ( isset($_GET['do_delete']) || isset($_GET['do_publish']) ) ){
+            echo '<div style="margin-top: 100px; margin-left: auto;margin-right: auto; max-width: 400px ">';
+            echo '<h1>Redaktion</h1>';
+            wp_login_form(['redirect'       => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']]);
+            echo '</div>';
+            die();
+        }
+
+        if ( current_user_can('delete_posts') && isset($_GET['do_delete']) && $_GET['do_delete'] == 'yes') {
             wp_update_post(array(
                 'id' => get_the_ID(),
                 'post_status' => 'trash'
             ));
         }
-        if (is_user_logged_in() && current_user_can('publish_posts') && isset($_GET['do_publish']) && $_GET['do_publish'] == 'yes') {
+        if (current_user_can('publish_posts') && isset($_GET['do_publish']) && $_GET['do_publish'] == 'yes') {
             wp_update_post(array(
                 'id' => get_the_ID(),
                 'post_status' => 'publish'
