@@ -251,7 +251,7 @@ class KtCube
             echo '<div style="margin-top: 100px; margin-left: auto;margin-right: auto; max-width: 400px ">';
             echo '<h1>Redaktion</h1>';
             wp_login_form(['redirect'       => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']]);
-            echo '</div>';
+            echo 'Nach erfolgreichem Login bitte den Link im Matrix Channel nochmals klicken!</div>';
             die();
         }
 
