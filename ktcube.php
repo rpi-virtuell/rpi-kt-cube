@@ -260,12 +260,24 @@ class KtCube
                 'id' => get_the_ID(),
                 'post_status' => 'trash'
             ));
+            echo '<div style="margin-top: 100px; margin-left: auto;margin-right: auto; max-width: 400px ">';
+            echo '<h1>Redaktion</h1><a href="';
+
+            echo admin_url('edit.php');
+            echo '">Weiter</a></div>';
+            die();
         }
         if (current_user_can('publish_posts') && isset($_GET['do_publish']) && $_GET['do_publish'] == 'yes') {
             wp_update_post(array(
                 'id' => get_the_ID(),
                 'post_status' => 'publish'
             ));
+            echo '<div style="margin-top: 100px; margin-left: auto;margin-right: auto; max-width: 400px ">';
+            echo '<h1>Redaktion</h1><a href="';
+
+            echo admin_url('edit.php');
+            echo '">Weiter</a></div>';
+            die();
 
         }
     }
