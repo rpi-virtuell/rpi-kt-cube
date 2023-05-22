@@ -1,12 +1,13 @@
 <?php
-
+$plugindir = str_replace(basename(__FILE__), '', $_SERVER['SCRIPT_NAME']);
+$jsdir = $plugindir.'vendor/'
 ?>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+    <script src="<?php echo $jsdir;?>mindar-image.prod.js"></script>
+    <script src="<?php echo $jsdir;?>aframe.min.js"></script>
+    <script src="<?php echo $jsdir;?>mindar-image-aframe.prod.js"></script>
     <link rel="stylesheet" href="/wp-includes/css/dashicons.min.css">
     <link rel="stylesheet" href="css/cam.css">
     <script>

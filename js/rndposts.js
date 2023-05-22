@@ -10,6 +10,9 @@ jQuery(document).ready(($) => {
     window.check_scene_loaded = setInterval(() => {
 
         const iframe = document.getElementById('cam');
+        if(null == iframe){
+            return;
+        }
         const innerDoc = iframe.contentDocument;
         const item = innerDoc.querySelector('a-entity[messagetext]');
 

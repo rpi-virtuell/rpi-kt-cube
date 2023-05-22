@@ -1,11 +1,15 @@
 <?php
 $base_url = str_replace('/viewer.php', '', 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF']);
+
+$plugindir = str_replace(basename(__FILE__), '', $_SERVER['SCRIPT_NAME']);
+$jsdir = $plugindir . 'vendor/'
+
 ?>
 <html>
 <head>
     <meta charset="utf-8">
     <title>Example Scene</title>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.min.js"></script>
+    <script src="<?php echo $jsdir;?>aframe.min.js"></script>
 </head>
 <body>
 <a-scene debug="true" background="color:gray;">
