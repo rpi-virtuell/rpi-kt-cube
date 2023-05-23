@@ -84,7 +84,7 @@ class KtCube
             KtCube = {};
             KtCube.pluginUrl = '<?php echo plugin_dir_url(__FILE__) ?>';
             KtCube.assetsUrl = '<?php echo KTCUBE_ASSETS_URL ?>';
-            KtCube.scalefactor = <?php echo get_option('options_scale_factor', 4) ?>;
+            KtCube.scalefactor = <?php echo get_option('options_scale_factor', 2.5) ?>;
             KtCube.zoomfactor = <?php echo get_option('options_zoom_factor', 0.3) ?>;
         </script>
         <?php

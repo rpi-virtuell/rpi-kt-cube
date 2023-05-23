@@ -16,7 +16,7 @@ jQuery(document).ready(($) => {
         const innerDoc = iframe.contentDocument;
         const item = innerDoc.querySelector('a-entity[messagetext]');
 
-        if (typeof item.components === "object" && item.components.hasOwnProperty('text')) {
+        if (item && typeof item.components === "object" && item.components.hasOwnProperty('text')) {
             clearInterval(window.check_scene_loaded);
             console.log('AR Loaded');
             start();
@@ -31,8 +31,11 @@ jQuery(document).ready(($) => {
      */
     function start() {
         KtCube.currentpos = 0;
-        KtCube.ModelPosition = {x: 0, y: 0, z: 0};
+        KtCube.ModelPosition = {x: 0, y: 0.5, z: 0};
         KtCube.currentY = 0;
+        KtCube.authorY = null;
+        KtCube.top=-0.6;
+
 
 
         if (typeof ARPosts != "undefined" && ARPosts.length > 0) {
@@ -47,7 +50,7 @@ jQuery(document).ready(($) => {
 
             $iframe.contents().find('#cam-text-zoom-plus').on('click', (event) => {
                 KtCube.currentscale = KtCube.currentscale + KtCube.zoomfactor;
-                KtCube.currentpos = KtCube.currentpos + 0.02;
+                //KtCube.currentpos = KtCube.currentpos + 0.02;
                 KtCube.currentY = KtCube.currentY + 0.02;
                 let pos = {
                     x: KtCube.ModelPosition.x,
@@ -60,7 +63,8 @@ jQuery(document).ready(($) => {
             });
             $iframe.contents().find('#cam-text-zoom-minus').on('click', (event) => {
                 KtCube.currentscale = KtCube.currentscale - KtCube.zoomfactor;
-                KtCube.currentY = KtCube.currentY - 0.02;
+                //KtCube.currentY = KtCube.currentY - 0.02;
+
                 let pos = {
                     x: KtCube.ModelPosition.x,
                     y: KtCube.ModelPosition.y + KtCube.currentY,
@@ -89,6 +93,7 @@ jQuery(document).ready(($) => {
 
             });
 
+            /*
             const iframe = document.getElementById('cam');
             const innerDoc = iframe.contentDocument;
             for (const model of innerDoc.querySelectorAll('a-gltf-model[logo]')) {
@@ -99,6 +104,8 @@ jQuery(document).ready(($) => {
                 console.log(KtCube.ModelPosition)
             }
             console.log(KtCube.ModelPosition)
+            */
+
             KtCube.postnumber = -1;
             console.log(KtCube)
 
@@ -117,6 +124,7 @@ jQuery(document).ready(($) => {
                 fronttext.setAttribute('scale', factor + ' ' + factor + ' ' + factor);
             }
         }
+
         for (const model of innerDoc.querySelectorAll('a-gltf-model[logo]')) {
             if (factor > 0) {
 
@@ -124,6 +132,7 @@ jQuery(document).ready(($) => {
 
             }
         }
+
 
         /*
            const camera = innerDoc.querySelector('a-camera');
@@ -133,7 +142,10 @@ jQuery(document).ready(($) => {
          */
     }
 
+
     function display_next(dir) {
+        KtCube.ModelPosition = {x: 0, y: 0.5, z: 0};
+        KtCube.currentY = 0;
 
         if (dir === 'left') {
             KtCube.postnumber--;
@@ -159,6 +171,17 @@ jQuery(document).ready(($) => {
         const messages = innerDoc.querySelectorAll('a-entity[messagetext]');
         const front = innerDoc.querySelectorAll('a-entity[front]');
         const authors = innerDoc.querySelectorAll('a-entity[authortext]');
+        const boxes = innerDoc.querySelectorAll('a-entity[geometry]');
+
+
+
+        if(KtCube.authorY === null) {
+            let author = innerDoc.querySelector('a-entity[authortext]');
+
+            let apos =   author.getAttribute('position');
+            KtCube.authorY = apos.y;
+        }
+
 
 
         const base_url = KtCube.assetsUrl;
@@ -180,6 +203,15 @@ jQuery(document).ready(($) => {
         for (const item of authors) {
             item.components.text.data.value = post.author;
             item.components.text.updateProperties();
+
+            let pos = item.getAttribute('position');
+            let dim = get_text_dimensions(0.05);
+
+            let y =  KtCube.authorY-dim.height + 0.3;
+
+            console.log('autho pos.y',pos.y, dim.height);
+            item.setAttribute('position', pos.x + ' ' + y + ' ' + pos.z)
+
         }
         for (const item of textnodes) {
             if (post.font) {
@@ -198,7 +230,7 @@ jQuery(document).ready(($) => {
         }
         for (const fronttext of innerDoc.querySelectorAll('a-entity[messagecontainer]')) {
 
-            let y = get_top_position();
+            let y = KtCube.top;
             let pos = fronttext.getAttribute('position');
             const startY = KtCube.ModelPosition.y - 0.3;
             y = startY + y;
@@ -206,12 +238,33 @@ jQuery(document).ready(($) => {
             fronttext.setAttribute('position', pos.x + ' ' + y + ' ' + pos.z);
 
         }
-
+        //get_text_dimensions
 
         for (const model of innerDoc.querySelectorAll('a-gltf-model[logo]')) {
             model.setAttribute('position', KtCube.ModelPosition.x + ' ' + KtCube.ModelPosition.y + ' ' + KtCube.ModelPosition.z);
         }
         innerDoc.getElementById('cam-id').innerHTML = post.id;
+
+        for(const box of boxes){
+            //let box_scale = box.getAttribute('scale');
+            //console.log('box_scale', box_scale);
+            //const dim = get_text_dimensions(0.02);
+            //const zscale = (dim.lines * 0.22)+0.2;
+            //console.log('zscale', zscale);
+            //box.setAttribute('scale','1.1 ' + zscale+ ' 0.1');
+
+            const dim = get_size();
+
+            console.log('dim',dim);
+
+            //box.setAttribute('geometry','primitive: box; height:0.1; depth:'+zscale+'; width:1.05');
+            box.setAttribute('geometry','primitive: box; height:'+dim.y+'; depth:'+dim.z+'; width:'+dim.x);
+
+            //box.components.geometry.data.depth=zscale;
+            //box.components.geometry.updateProperties();
+
+
+        }
 
     }
 
@@ -298,17 +351,17 @@ jQuery(document).ready(($) => {
 
     }
 
-    function get_top_position() {
+    function get_top_position(m) {
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
         const message = innerDoc.querySelector('a-entity[messagecontainer]');
         const lines = message.components.text.data.value.split("\n");
 
-        const scale = message.getAttribute('scale');
+        const scale = KtCube.scalefactor;
+        const h = m * scale;
 
         console.log('scale', scale);
 
-        const h = 0.20;
 
         let counter = lines.length;
         for (const line of lines) {
@@ -323,5 +376,43 @@ jQuery(document).ready(($) => {
 
     }
 
+    function get_text_dimensions(m) {
+        const iframe = document.getElementById('cam');
+        const innerDoc = iframe.contentDocument;
+        const message = innerDoc.querySelector('a-entity[messagecontainer]');
+        const lines = message.components.text.data.value.split("\n");
+        const scale = KtCube.scalefactor;
+        const h = m * scale;
+
+        let counter = lines.length;
+        for (const line of lines) {
+            if (line.length > 30) {
+                counter++;
+            }
+        }
+        counter++;
+
+
+        let dim = {
+            height: counter * h,
+            width: 30 * 0.005,
+            lines: counter,
+        }
+
+        return dim;
+
+    }
+
+    function get_size(){
+        const iframe = document.getElementById('cam');
+        const innerDoc = iframe.contentDocument;
+        const elem = innerDoc.querySelector('a-entity[message]');
+        let box = new THREE.Box3().setFromObject( elem.object3D );
+        let x = box.max.x - box.min.x
+        let y = box.max.y - box.min.y
+        let z = box.max.z - box.min.z
+        console.log({x,y,z})
+        return {x,y,z}
+    }
 
 });

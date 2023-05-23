@@ -6,11 +6,13 @@ $jsdir = $plugindir.'vendor/'
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <script src="<?php echo $jsdir;?>mindar-image.prod.js"></script>
+    <script src="<?php echo $jsdir;?>three.min.js"></script>
     <script src="<?php echo $jsdir;?>aframe.min.js"></script>
     <script src="<?php echo $jsdir;?>mindar-image-aframe.prod.js"></script>
     <link rel="stylesheet" href="/wp-includes/css/dashicons.min.css">
     <link rel="stylesheet" href="css/cam.css">
     <script>
+        parent.THREE = THREE;
 
         AFRAME.registerComponent("logo", {
             init: function() {
@@ -28,6 +30,8 @@ $jsdir = $plugindir.'vendor/'
                 })
             }}
         );
+
+
     </script>
 </head>
 <body>
@@ -129,59 +133,55 @@ function render_cam_scene($mindfilename, $targetindexes)
                  $i++) {
                 ?>
                 <a-entity mindar-image-target="targetIndex: <?php echo $i ?>">
-                    <a-entity light="type:directional; castShadow:true;" position="1 1 8"></a-entity>
-                    <a-gltf-model logo src="#logo"
+                    <a-entity light="type:directional; castShadow:true; intensity:0.8;  light.angle:180;" position="0 0 100"></a-entity>
+                    <!--<a-gltf-model logo src="#logo"
                                   rotation="90 0 0"
                                   position="0 0 0"
                                   scale="0.006 0.006 0.006"
                                   animation="property: scale; to: 0.005 0.005 0.005; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
-                    ></a-gltf-model>
+                    ></a-gltf-model>-->
 
                     <a-entity container>
 
                         <a-entity
                                 messagetext front messagecontainer
-                                text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ...;negate:false; align:center; shader:msdf; color:#ffffff ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
-                                position="0 -1 0.1"
+                                text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ...;negate:false; align:center; shader:msdf; color:#ffffff ;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:center"
+                                position="0 -1.2 0.1"
                                 scale="0.5 0.5 0.5" rotation="0 0 0"
-                                animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
+                                animation="property: rotation; to: -5 5 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                                 material="side:double"
-
                         >
                             <a-entity
-                                    messagetext back
-                                    text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ...;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:bottom"
-                                    position="0.01 -0 -0.021"
+                                    messagetext back message
+                                    text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ...;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:center"
+                                    position="0.01 -0 -0.011"
                                     material="side:double"
                             >
-
                                 <?php
                                 ?>
                                 <a-entity
-                                        authortext front
-                                        text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#ffffff ; opacity:0.9 ; side:double; wrapPixels:400"
+                                        authortext front author
+                                        text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#ffffff ; opacity:0.9 ; side:double; wrapPixels:400 ; baseline:center"
                                         position="0 -0.05 0"
                                         scale="0.5 0.5 0.5"
                                         rotation="0 0 0"
                                         material="side:double"
-
                                 ></a-entity>
-                                <a-entity
-                                        authortext back
-                                        text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:400"
-                                        position="0.01 -0.05 -0.005"
-                                        scale="0.5 0.5 0.5"
-                                        rotation="0 0 0"
-                                        material="side:double"
-
-                                ></a-entity>
+<!--                                <a-entity-->
+<!--                                        authortext back-->
+<!--                                        text="font:--><?php //echo $base_url; ?><!--/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#ccc;opacity:0.15 ; side:double; wrapPixels:400 ; baseline:top"-->
+<!--                                        position="0.01 -0.05 -0.005"-->
+<!--                                        scale="0.5 0.5 0.5"-->
+<!--                                        rotation="0 0 0"-->
+<!--                                        material="side:double"-->
+<!---->
+<!--                                ></a-entity>-->
 
                                 <?php
                                 ?>
-                                <!--<a-entity geometry="primitive: circle" material="color:white; opacity:0.3" position="0 0.2 -0" width="2"
-                                          heigth="3">
 
-                                </a-entity>-->
+                                <!--<a-box position="0 0 -0.1" material="color:#ffffff;dithering:false;blending:normal;metalness:0.99; roughness:0.24 ; opacity:0.9" height="1" width="2" depth="0.1"></a-box>-->
+                                <a-entity geometry="primitive: box; height:0.1; depth:0.2; width:1.05;" material="color:#ffffff;dithering:false;blending:normal;metalness:0.99; roughness:0.24 ; opacity:0.9" position="0 -0.1 -0.1" rotation="95 0 0" ></a-entity>
                             </a-entity>
 
 
