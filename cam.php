@@ -141,7 +141,7 @@ function render_cam_scene($mindfilename, $targetindexes)
                                   animation="property: scale; to: 0.005 0.005 0.005; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
                     ></a-gltf-model>-->
 
-                    <a-entity container>
+                    <a-entity container >
 
                         <a-entity
                                 messagetext front messagecontainer
@@ -161,27 +161,27 @@ function render_cam_scene($mindfilename, $targetindexes)
                                 ?>
                                 <a-entity
                                         authortext front author
-                                        text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#ffffff ; opacity:0.9 ; side:double; wrapPixels:400 ; baseline:center"
-                                        position="0 -0.05 0"
-                                        scale="0.5 0.5 0.5"
-                                        rotation="0 0 0"
+                                        text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:center; shader:msdf; color:#ffffff ; opacity:0.9 ; side:double; baseline:center"
+                                        position="0 0.1 0.01"
                                         material="side:double"
+                                >
+                                </a-entity>
+                                <a-entity
+                                    authortext back
+                                    text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:center; shader:msdf; color:#000000 ; opacity:0.15 ; side:double; baseline:center"
+                                    position="0.01 0 -0.011"
                                 ></a-entity>
-<!--                                <a-entity-->
-<!--                                        authortext back-->
-<!--                                        text="font:--><?php //echo $base_url; ?><!--/assets/Caveat-Bold-msdf.json; value: ;negate:false; align:right; shader:msdf; color:#ccc;opacity:0.15 ; side:double; wrapPixels:400 ; baseline:top"-->
-<!--                                        position="0.01 -0.05 -0.005"-->
-<!--                                        scale="0.5 0.5 0.5"-->
-<!--                                        rotation="0 0 0"-->
-<!--                                        material="side:double"-->
-<!---->
-<!--                                ></a-entity>-->
+                                <!-- scale="0.5 0.5 0.5" scale="0.5 0.6 0.5"-->
+
 
                                 <?php
                                 ?>
 
-                                <!--<a-box position="0 0 -0.1" material="color:#ffffff;dithering:false;blending:normal;metalness:0.99; roughness:0.24 ; opacity:0.9" height="1" width="2" depth="0.1"></a-box>-->
-                                <a-entity geometry="primitive: box; height:0.1; depth:0.2; width:1.05;" material="color:#ffffff;dithering:false;blending:normal;metalness:0.99; roughness:0.24 ; opacity:0.9" position="0 -0.1 -0.1" rotation="95 0 0" ></a-entity>
+                                <a-entity geometry="primitive: box; height:0.01; depth:0.01; width:1.2;"
+                                          material="color:#ffffff;dithering:true;metalness:0.99; roughness:0.24 ; opacity:0.8"
+                                          position="0 -0.09 -0.11"
+                                          rotation="95 0 0"
+                                ></a-entity>
                             </a-entity>
 
 
@@ -190,8 +190,10 @@ function render_cam_scene($mindfilename, $targetindexes)
                     </a-entity>
 
                 </a-entity>
+
                 <?php
             }
+
             ?>
 
 

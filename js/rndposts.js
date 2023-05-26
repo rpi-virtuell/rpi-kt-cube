@@ -174,7 +174,6 @@ jQuery(document).ready(($) => {
         const boxes = innerDoc.querySelectorAll('a-entity[geometry]');
 
 
-
         if(KtCube.authorY === null) {
             let author = innerDoc.querySelector('a-entity[authortext]');
 
@@ -204,12 +203,21 @@ jQuery(document).ready(($) => {
             item.components.text.data.value = post.author;
             item.components.text.updateProperties();
 
+
             let pos = item.getAttribute('position');
             let dim = get_text_dimensions(0.05);
 
-            let y =  KtCube.authorY-dim.height + 0.3;
+            console.log('lines',dim.lines);
 
-            console.log('autho pos.y',pos.y, dim.height);
+            let y = KtCube.authorY;
+            if(dim.lines>3){
+                y =  KtCube.authorY*3-dim.height;
+            }else if(dim.lines>2){
+                y =  KtCube.authorY*2-dim.height;
+            }else if(dim.lines>0){
+                y =  KtCube.authorY-dim.height;
+            }
+
             item.setAttribute('position', pos.x + ' ' + y + ' ' + pos.z)
 
         }
@@ -246,24 +254,11 @@ jQuery(document).ready(($) => {
         innerDoc.getElementById('cam-id').innerHTML = post.id;
 
         for(const box of boxes){
-            //let box_scale = box.getAttribute('scale');
-            //console.log('box_scale', box_scale);
-            //const dim = get_text_dimensions(0.02);
-            //const zscale = (dim.lines * 0.22)+0.2;
-            //console.log('zscale', zscale);
-            //box.setAttribute('scale','1.1 ' + zscale+ ' 0.1');
+            const dim = get_text_dimensions(0.07);
 
-            const dim = get_size();
-
-            console.log('dim',dim);
-
-            //box.setAttribute('geometry','primitive: box; height:0.1; depth:'+zscale+'; width:1.05');
-            box.setAttribute('geometry','primitive: box; height:'+dim.y+'; depth:'+dim.z+'; width:'+dim.x);
-
+            box.setAttribute('geometry','primitive: box; height:0.01; depth:'+dim.height+0.05+'; width:1.2');
             //box.components.geometry.data.depth=zscale;
             //box.components.geometry.updateProperties();
-
-
         }
 
     }
@@ -376,27 +371,26 @@ jQuery(document).ready(($) => {
 
     }
 
-    function get_text_dimensions(m) {
+    function get_text_dimensions(m=0.07) {
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
-        const message = innerDoc.querySelector('a-entity[messagecontainer]');
+        const message = innerDoc.querySelector('a-entity[message]');
         const lines = message.components.text.data.value.split("\n");
         const scale = KtCube.scalefactor;
         const h = m * scale;
 
         let counter = lines.length;
         for (const line of lines) {
-            if (line.length > 30) {
-                counter++;
-            }
+            let x = Math.ceil(line.length/32)-1;
+            counter = counter+x;
         }
         counter++;
 
 
         let dim = {
-            height: counter * h,
-            width: 30 * 0.005,
+            scale: scale,
             lines: counter,
+            height: counter * h
         }
 
         return dim;
@@ -406,11 +400,11 @@ jQuery(document).ready(($) => {
     function get_size(){
         const iframe = document.getElementById('cam');
         const innerDoc = iframe.contentDocument;
-        const elem = innerDoc.querySelector('a-entity[message]');
-        let box = new THREE.Box3().setFromObject( elem.object3D );
-        let x = box.max.x - box.min.x
-        let y = box.max.y - box.min.y
-        let z = box.max.z - box.min.z
+        const elem = innerDoc.querySelector('a-entity[container]');
+        const box = new THREE.Box3().setFromObject( elem.object3D );
+        const x = box.max.x - box.min.x
+        const y = box.max.y - box.min.y
+        const z = box.max.z - box.min.z
         console.log({x,y,z})
         return {x,y,z}
     }
