@@ -177,9 +177,9 @@ function render_cam_scene($mindfilename, $targetindexes)
                                 <?php
                                 ?>
 
-                                <a-entity geometry="primitive: box; height:0.01; depth:0.01; width:1.2;"
+                                <a-entity schild geometry="primitive: box; height:0.01; depth:0.01; width:1.2;"
                                           material="color:#ffffff;dithering:true;metalness:0.99; roughness:0.24 ; opacity:0.8"
-                                          position="0 -0.09 -0.11"
+                                          position="-1000 -0.09 -0.11"
                                           rotation="95 0 0"
                                 ></a-entity>
                             </a-entity>

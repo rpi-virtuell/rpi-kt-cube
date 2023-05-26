@@ -14,20 +14,21 @@ $jsdir = $plugindir . 'vendor/'
 <body>
 <a-scene debug="true" background="color:gray;">
     <a-camera position="0 0 0"  wasd-controls-enabled="false" look-controls="magicWindowTrackingEnabled: false"></a-camera>
-    <a-entity light="type:directional; castShadow:true;" position="1 1 5"></a-entity>
+-    <a-entity light="type:directional;  castShadow:true;" position="1 1 10"></a-entity>
+
 
     <a-entity
             messagetext front messagecontainer
-            text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: Meine Zeitansage;negate:false; align:center; shader:msdf; color:#ff0000;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:bottom"
+            text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: Meine Zeitansage;negate:false; align:center; shader:msdf; color:#ff0000;opacity:0.9 ; side:double; wrapPixels:450 ; baseline:center"
             position="0 -0.05 -0.245"
             scale="0.5 0.5 0.5" rotation="0 0 0"
-            animation="property: rotation; to: -10 10 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
+            animation="property: rotation; to: -5 5 0; dur: 2000; easing: easeInOutQuad; loop: true; dir: alternate"
             material="side:double"
 
     >
         <a-entity
                 messagetext back
-                text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: Meine Zeitansage;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:bottom"
+                text="font:<?php echo $base_url; ?>/assets/Caveat-Bold-msdf.json; value: Meine Zeitansage;negate:false; align:center; shader:msdf; color:#000;opacity:0.15 ; side:double; wrapPixels:450 ; baseline:center"
                 position="0.01 -0 -0.021"
                 material="side:double"
 
@@ -46,11 +47,16 @@ $jsdir = $plugindir . 'vendor/'
                     material="side:double"
 
             ></a-entity>
+            <a-entity schild geometry="primitive: box; height:0.01; depth:0.9; width:1.5;"
+                      material="color:#ffffff;dithering:true;metalness:0.50; roughness:0.50 ; opacity:0.7"
+                      position="-1000 0 -0.2"
+                      rotation="88 0 0"
+            ></a-entity>
         </a-entity>
     </a-entity>
     <a-image src="<?php echo $base_url; ?>/assets/background.jpg"
              position="0 0 -3.25" scale="5 3 4" width="2"
-             height="2" rotation="0 0 0">
+             height="2" rotation="5 0 0">
     </a-image>
 
 </a-scene>

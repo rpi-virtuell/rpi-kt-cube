@@ -61,7 +61,19 @@ jQuery(document).ready($ => {
             enti.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
         }
     })
+    $('.acf-field-true-false[data-name="model"] input').on('change', function (e) {
+        const iframe = document.getElementById('viewer');
+        const innerDoc = iframe.contentDocument;
+        const display_model = e.target.checked;
+        for (const enti of innerDoc.querySelectorAll('a-entity[schild]')) {
+            if(display_model){
+                enti.setAttribute('position', '0 0 -0.2');
+            }else{
+                enti.setAttribute('position', '-1000 0 -0.2');
+            }
 
+        }
+    })
 
 
     $('#cam').ready($ => {

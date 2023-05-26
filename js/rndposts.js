@@ -259,7 +259,12 @@ jQuery(document).ready(($) => {
             box.setAttribute('geometry','primitive: box; height:0.01; depth:'+dim.height+0.05+'; width:1.2');
             //box.components.geometry.data.depth=zscale;
             //box.components.geometry.updateProperties();
+            console.log('post.model', post.model);
+            if(post.model)
+                box.setAttribute('position','0 -0.09 -0.11');
+
         }
+
 
     }
 
