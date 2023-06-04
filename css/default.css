@@ -8,9 +8,10 @@
 }
 
 #control-panel svg {
-    height: 30px;
-    width: 30px;
+    height: 50px;
+    width: 50px;
     padding: 3px;
+    fill: #e6311d;
 }
 
 #control-panel svg:hover {
