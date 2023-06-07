@@ -141,7 +141,7 @@ class KtCube
             $obj->author = get_post_meta($arpost->ID, 'author', true);
             $arpostsarray[] = $obj;
         }
-        shuffle($arpostsarray);
+        //shuffle($arpostsarray);
         ob_start();
         ?>
         <iframe id="cam" frameBorder="0" style="height:90vh; width: 100%" src="<?php
